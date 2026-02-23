@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hackathon Manager</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+    input, button { margin: 5px 0; padding: 8px; width: 300px; }
+    button { cursor: pointer; }
+    .card {
+      background: white;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    img { width: 200px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>Insert Hackathon</h2>
+
+<input type="text" id="name" placeholder="Name"><br>
+<input type="text" id="description" placeholder="Description"><br>
+<input type="date" id="date"><br>
+<input type="text" id="location" placeholder="Location"><br>
+<input type="file" id="logo"><br>
+<button onclick="addHackathon()">Insert Hackathon</button>
+
+<hr>
+
+<button onclick="getHackathons()">Fetch Hackathons</button>
+
+<div id="hackathons"></div>
+
+<script>
+
+async function addHackathon() {
+  const formData = new FormData();
+
+  formData.append("name", document.getElementById("name").value);
+  formData.append("description", document.getElementById("description").value);
+  formData.append("date", document.getElementById("date").value);
+  formData.append("location", document.getElementById("location").value);
+  formData.append("logo", document.getElementById("logo").files[0]);
+
+  const response = await fetch("http://localhost:5000/api/hackathons", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await response.json();
+  alert("Hackathon Added Successfully!");
+}
+
+async function getHackathons() {
+  const res = await fetch("http://localhost:5000/api/hackathons");
+  const data = await res.json();
+
+  const container = document.getElementById("hackathons");
+  container.innerHTML = "";
+
+  data.forEach(h => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <h3>${h.name}</h3>
+      <p>${h.description}</p>
+      <p>${new Date(h.date).toDateString()}</p>
+      <p>${h.location}</p>
+      ${h.logo ? `<img src="http://localhost:5000/${h.logo}" />` : ""}
+    `;
+    container.appendChild(div);
+  });
+}
+
+</script>
+
+</body>
+</html>
