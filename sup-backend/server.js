@@ -25,6 +25,9 @@ const hackathonRoutes = require('./routes/hackathonRoutes');
 app.use('/uploads', express.static('uploads'));
 app.use('/api/hackathons', hackathonRoutes);
 
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
