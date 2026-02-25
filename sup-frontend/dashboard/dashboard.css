@@ -1,0 +1,339 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at center, #0f2027, #0a0f1c);
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Particle Canvas */
+#particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Dashboard Container */
+.dashboard {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 30px 0;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+/* Form Container */
+.form-container {
+    margin-bottom: 40px;
+}
+
+.form-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,255,255,0.2);
+    box-shadow: 0 0 40px rgba(0,255,255,0.2);
+    animation: slideDown 1s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    text-align: center;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s ease;
+}
+
+input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+input:focus {
+    outline: none;
+    border-color: #00f5ff;
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    width: 100%;
+    margin-top: 20px;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    color: white;
+    text-shadow: 0 0 6px rgba(0,0,0,0.6);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,255,255,0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: rgba(0,255,255,0.2);
+    color: #00f5ff;
+    border: 1px solid rgba(0,255,255,0.5);
+}
+
+.btn-secondary:hover {
+    background: rgba(0,255,255,0.3);
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    transform: translateY(-2px);
+}
+
+/* Fetch Container */
+.fetch-container {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+/* Hackathons Grid */
+.hackathons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    animation: slideUp 1.2s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hackathon Card */
+.hackathon-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,255,255,0.2);
+    box-shadow: 0 0 30px rgba(0,255,255,0.15);
+    transition: 0.4s ease;
+    animation: cardFade 0.6s ease-out;
+}
+
+@keyframes cardFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hackathon-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 50px rgba(0,255,255,0.3);
+    border-color: rgba(0,255,255,0.5);
+}
+
+.card-header {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(123,47,247,0.1));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+.hackathon-card:hover .card-header img {
+    transform: scale(1.05);
+}
+
+.no-logo {
+    font-size: 4rem;
+    opacity: 0.6;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card-body p {
+    margin: 8px 0;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    line-height: 1.4;
+}
+
+.description {
+    color: rgba(255,255,255,0.7);
+}
+
+.date, .location {
+    color: rgba(0,255,255,0.8);
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hackathons-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .form-card {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .form-card {
+        padding: 25px;
+    }
+
+    .hackathons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    .form-card {
+        padding: 20px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-body h3 {
+        font-size: 1.1rem;
+    }
+
+    .card-body p {
+        font-size: 0.85rem;
+    }
+}

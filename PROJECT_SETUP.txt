@@ -1,0 +1,208 @@
+INFINEX PROJECT SETUP GUIDE
+
+PROJECT STRUCTURE
+
+After cloning or pulling the repository, your project folder should look like this:								     sample entry    email: sample@gmail.com
+																				  password: 123123123
+Infinex/
+│
+├── sup-backend/
+│ ├── config/
+│ ├── controllers/
+│ ├── models/
+│ ├── routes/
+│ ├── uploads/
+│ ├── server.js
+│ ├── package.json
+│ └── .env (must be created manually)
+│
+├── sup-frontend/
+│ ├── splash/
+│ ├── auth/
+│ ├── dashboard/
+│
+└── README.md
+
+STEP 1: REQUIRED SOFTWARE
+
+Make sure the following are installed:
+
+Node.js (v18 or above recommended)
+
+MongoDB (local installation)
+
+Git
+
+To verify installation, run:
+
+node -v
+npm -v
+mongod --version
+
+STEP 2: INSTALL BACKEND DEPENDENCIES
+
+Navigate to backend folder:
+
+cd sup-backend
+
+Then run:
+
+npm install
+
+This installs required packages:
+
+express
+
+mongoose
+
+bcryptjs
+
+jsonwebtoken
+
+multer
+
+cors
+
+dotenv
+
+This will automatically create the node_modules folder.
+
+IMPORTANT:
+Do NOT push node_modules to GitHub.
+
+STEP 3: CREATE REQUIRED FOLDER
+
+Inside sup-backend, ensure this folder exists:
+
+uploads/
+
+If it does not exist, create it:
+
+mkdir uploads
+
+This folder is required for image uploads using Multer.
+
+STEP 4: CREATE .ENV FILE
+
+Inside sup-backend, create a file named:
+
+.env
+
+Add the following content:
+
+MONGO_URI=mongodb://127.0.0.1:27017/infinexDB
+PORT=5000
+JWT_SECRET=superSecretKey
+
+IMPORTANT:
+The .env file is not pushed to GitHub.
+Every developer must create their own.
+
+STEP 5: START MONGODB
+
+Ensure MongoDB service is running.
+
+On Windows:
+Start MongoDB service from Services panel
+
+OR run manually:
+
+mongod
+
+STEP 6: START BACKEND SERVER
+
+Inside sup-backend folder:
+
+node server.js
+
+Expected output:
+
+Server running on http://localhost:5000
+
+MongoDB Connected Successfully
+
+STEP 7: RUN FRONTEND
+
+Open:
+
+sup-frontend/splash/splash.html
+
+You may:
+
+Use VS Code Live Server
+OR
+
+Open the file directly in browser
+
+APPLICATION FLOW
+
+Splash Screen loads
+
+Redirect to Login
+
+Signup (creates user in MongoDB)
+
+Login (JWT token stored in localStorage)
+
+Redirect to Dashboard
+
+Create Hackathon
+
+Hackathon data saved in MongoDB
+
+Logo image saved inside uploads folder
+
+Dashboard fetches and displays hackathon list
+
+IMPORTANT TECHNICAL NOTES
+
+Authentication uses JWT
+
+Passwords are hashed using bcrypt
+
+Hackathon image upload uses Multer
+
+Image field name must be "logo"
+
+Hackathon POST request uses form-data
+
+Auth requests use JSON
+
+Database name is controlled through .env file
+
+COMMON ERROR FIXES
+
+If "Cannot find module" error:
+Run: npm install
+
+If MongoDB connection fails:
+Check MONGO_URI inside .env
+
+If image upload fails:
+Ensure uploads folder exists
+
+If 404 API error:
+Ensure backend is running on port 5000
+
+GIT RULES
+
+Do NOT push:
+
+node_modules/
+
+.env
+
+uploads images
+
+Use a proper .gitignore file.
+
+FINAL COMMAND SUMMARY
+
+cd sup-backend
+npm install
+node server.js
+
+Then open:
+sup-frontend/splash/splash.html
+
+Project is now ready to run.

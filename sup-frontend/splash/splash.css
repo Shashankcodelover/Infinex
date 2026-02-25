@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #0f2027, #0a0f1c);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1500px;
+    color: white;
+}
+
+/* Particle Canvas */
+#particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* 3D Scene */
+.scene {
+    transform-style: preserve-3d;
+    animation: floatScene 6s ease-in-out infinite;
+}
+
+@keyframes floatScene {
+    0%,100% { transform: rotateX(0deg) rotateY(0deg); }
+    50% { transform: rotateX(8deg) rotateY(-8deg); }
+}
+
+/* Glass Card */
+.card {
+    width: 450px;
+    padding: 50px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 60px rgba(0,255,255,0.3);
+    animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo */
+.logo {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: 6px;
+}
+
+.logo span {
+    color: #00f5ff;
+    text-shadow: 0 0 20px #00f5ff;
+}
+
+/* Tagline */
+.tagline {
+    margin: 15px 0 25px;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* Feature tags */
+.features span {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: rgba(0,255,255,0.15);
+    font-size: 13px;
+}
+
+/* Button */
+button {
+    margin-top: 30px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(0,0,0,0.6);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #00f5ff;
+}
+
+/* Glow Ring */
+.glow-ring {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(0,255,255,0.5), transparent);
+    filter: blur(40px);
+    z-index: -1;
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - INFINEX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <!-- Particle Canvas -->
+  <canvas id="particles"></canvas>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard">
+    <div class="header">
+      <h1 class="title">INFINEX Dashboard</h1>
+      <p class="subtitle">Manage Your Hackathons</p>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-container">
+      <div class="form-card">
+        <h2>Create New Hackathon</h2>
+        
+        <form id="formInputs">
+          <div class="form-group">
+            <input type="text" id="name" placeholder="Hackathon Name" required>
+          </div>
+          <div class="form-group">
+            <input type="text" id="description" placeholder="Description">
+          </div>
+          <div class="form-group">
+            <input type="date" id="date" required>
+          </div>
+          <div class="form-group">
+            <input type="text" id="location" placeholder="Location">
+          </div>
+          <div class="form-group">
+            <input type="file" id="logo">
+          </div>
+          <button onclick="addHackathon()" class="btn-primary">Insert Hackathon</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Fetch Section -->
+    <div class="fetch-container">
+      <button onclick="getHackathons()" class="btn-secondary">Fetch Hackathons</button>
+    </div>
+
+    <!-- Hackathons Grid -->
+    <div class="hackathons-grid" id="hackathons"></div>
+  </div>
+
+  <script>
+    // Particle animation
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    for (let i = 0; i < 60; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 1,
+            dx: (Math.random() - 0.5) * 0.2,
+            dy: (Math.random() - 0.5) * 0.2
+        });
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(0,255,255,0.4)";
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+            p.x += p.dx;
+            p.y += p.dy;
+
+            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        });
+        requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+  </script>
+
+  <script>
+
+    async function addHackathon() {
+      const formData = new FormData();
+
+      formData.append("name", document.getElementById("name").value);
+      formData.append("description", document.getElementById("description").value);
+      formData.append("date", document.getElementById("date").value);
+      formData.append("location", document.getElementById("location").value);
+      formData.append("logo", document.getElementById("logo").files[0]);
+
+      const response = await fetch("http://localhost:5000/api/hackathons", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      alert("Hackathon Added Successfully!");
+      document.getElementById("formInputs").reset();
+    }
+
+    async function getHackathons() {
+      const res = await fetch("http://localhost:5000/api/hackathons");
+      const data = await res.json();
+
+      const container = document.getElementById("hackathons");
+      container.innerHTML = "";
+
+      data.forEach(h => {
+        const div = document.createElement("div");
+        div.className = "hackathon-card";
+        div.innerHTML = `
+          <div class="card-header">
+            ${h.logo ? `<img src="http://localhost:5000/${h.logo}" alt="${h.name}"/>` : '<div class="no-logo">📋</div>'}
+          </div>
+          <div class="card-body">
+            <h3>${h.name}</h3>
+            <p class="description">${h.description}</p>
+            <p class="date">📅 ${new Date(h.date).toDateString()}</p>
+            <p class="location">📍 ${h.location}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+  </script>
+
+</body>
+</html>
