@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Hackathon - Infinex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="hackathon.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">Infinex</div>
+        <ul class="nav-links">
+            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Particle Canvas -->
+    <canvas id="particles"></canvas>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Create Hackathon</h1>
+            <p>Organize and launch a new hackathon event</p>
+        </div>
+
+        <!-- Create Form -->
+        <div class="form-wrapper">
+            <form id="createForm" class="form-card">
+                <div class="form-group">
+                    <label>Hackathon Name *</label>
+                    <input type="text" id="name" placeholder="Enter hackathon name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="description" placeholder="Enter detailed description" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Date *</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>End Date *</label>
+                        <input type="date" id="endDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Location *</label>
+                    <input type="text" id="location" placeholder="Enter location" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Prize Pool</label>
+                    <input type="number" id="prizePool" placeholder="Enter prize amount">
+                </div>
+
+                <div class="form-group">
+                    <label>Logo/Banner</label>
+                    <input type="file" id="logo" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>Max Participants</label>
+                    <input type="number" id="maxParticipants" placeholder="Enter maximum participants">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Hackathon</button>
+                    <a href="../dashboard/dashboard.html" class="btn btn-secondary">Cancel</a>
+                </div>
+
+                <div id="message" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Particle animation
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1,
+                dx: (Math.random() - 0.5) * 0.2,
+                dy: (Math.random() - 0.5) * 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0,255,255,0.4)";
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+
+    <script src="create.js"></script>
+</body>
+</html>

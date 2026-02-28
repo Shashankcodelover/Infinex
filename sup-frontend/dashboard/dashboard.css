@@ -8,8 +8,48 @@ body {
     font-family: 'Poppins', sans-serif;
     background: radial-gradient(circle at center, #0f2027, #0a0f1c);
     color: white;
-    padding: 20px;
+    padding: 0;
     min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(15, 15, 30, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #00f5ff;
 }
 
 /* Particle Canvas */
@@ -30,6 +70,7 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     animation: fadeIn 1s ease-in;
+    padding: 20px;
 }
 
 @keyframes fadeIn {
@@ -59,6 +100,34 @@ body {
     font-size: 1.1rem;
     font-weight: 300;
     opacity: 0.8;
+    margin-bottom: 2rem;
+}
+
+/* Quick Navigation */
+.quick-nav {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.quick-nav-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 12px;
+    background: rgba(0,255,255,0.1);
+    color: #00f5ff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.quick-nav-btn:hover {
+    background: rgba(0,255,255,0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,255,255,0.3);
 }
 
 /* Form Container */

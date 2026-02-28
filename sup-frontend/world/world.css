@@ -1,0 +1,130 @@
+/* ====================================
+   World Page Styles
+   ==================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(15, 15, 30, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 60px;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: 0.3s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.nav-links a:hover {
+    color: #00f5ff;
+}
+
+/* Canvas Container */
+#canvas-container {
+    width: 100%;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+    position: relative;
+}
+
+#canvas-container canvas {
+    display: block;
+}
+
+/* Controls Panel */
+.controls-panel {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(15, 15, 30, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    max-width: 250px;
+    z-index: 900;
+    animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.controls-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.controls-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.controls-info p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0f2027 0%, #0a0f1c 100%);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    z-index: 2000;\n    gap: 2rem;\n    opacity: 1;\n    transition: opacity 0.3s ease;\n}\n\n.spinner {\n    width: 50px;\n    height: 50px;\n    border: 4px solid rgba(0, 245, 255, 0.2);\n    border-top: 4px solid #00f5ff;\n    border-radius: 50%;\n    animation: spin 1s linear infinite;\n}\n\n@keyframes spin {\n    to { transform: rotate(360deg); }\n}\n\n.loading-screen p {\n    font-size: 1.2rem;\n    color: rgba(0, 245, 255, 0.8);\n    font-weight: 600;\n    letter-spacing: 1px;\n}\n\n/* Responsive */\n@media (max-width: 768px) {\n    .navbar {\n        padding: 0.75rem 1rem;\n    }\n\n    .navbar-brand {\n        font-size: 1rem;\n    }\n\n    .nav-links {\n        gap: 1rem;\n        font-size: 0.85rem;\n    }\n\n    .controls-panel {\n        bottom: 1rem;\n        right: 1rem;\n        padding: 1rem;\n    }\n\n    .controls-title {\n        font-size: 0.9rem;\n    }\n\n    .controls-info p {\n        font-size: 0.85rem;\n    }\n}\n\n@media (max-width: 480px) {\n    .navbar {\n        height: 50px;\n        padding: 0.5rem 0.75rem;\n    }\n\n    #canvas-container {\n        height: calc(100vh - 50px);\n        margin-top: 50px;\n    }\n\n    .navbar-brand {\n        font-size: 0.9rem;\n    }\n\n    .nav-links {\n        gap: 0.5rem;\n        font-size: 0.75rem;\n    }\n\n    .controls-panel {\n        max-width: 200px;\n        bottom: 0.75rem;\n        right: 0.75rem;\n    }\n}
