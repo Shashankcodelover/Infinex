@@ -1,0 +1,542 @@
+/* ====================================
+   Global & Navbar
+   ==================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at center, #0f2027, #0a0f1c);
+    color: white;
+    min-height: 100vh;
+}
+
+.navbar {
+    background: rgba(15, 15, 30, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #00f5ff;
+}
+
+/* ====================================
+   Particle Canvas
+   ==================================== */
+#particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ====================================
+   Container & Layout
+   ==================================== */
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-header {
+    margin-bottom: 3rem;
+    text-align: center;
+    animation: slideDown 0.8s ease-out;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+.page-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ====================================
+   Buttons
+   ==================================== */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+}
+
+.btn-secondary {
+    background: rgba(0,255,255,0.1);
+    color: #00f5ff;
+    border: 1px solid rgba(0,255,255,0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(0,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* ====================================
+   Forms
+   ==================================== */
+.form-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,255,255,0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 0 40px rgba(0,255,255,0.2);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00f5ff;
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* ====================================
+   Lists & Grids
+   ==================================== */
+.hackathons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hackathon-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,255,255,0.2);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,255,255,0.15);
+    transition: 0.4s ease;
+    animation: cardFade 0.6s ease-out;
+}
+
+@keyframes cardFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hackathon-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 50px rgba(0,255,255,0.3);
+    border-color: rgba(0,255,255,0.5);
+}
+
+.card-header {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(123,47,247,0.1));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+.hackathon-card:hover .card-header img {
+    transform: scale(1.05);
+}
+
+.no-logo {
+    font-size: 4rem;
+    opacity: 0.6;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card-body p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.card-actions .btn {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* ====================================
+   Filter & Search
+   ==================================== */
+.filter-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.search-input,
+.filter-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s ease;
+}
+
+.search-input {
+    min-width: 300px;
+}
+
+.filter-select:focus,
+.search-input:focus {
+    outline: none;
+    border-color: #00f5ff;
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+}
+
+.search-input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+/* ====================================
+   Empty State
+   ==================================== */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(0,255,255,0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1.5rem;
+}
+
+/* ====================================
+   Messages & States
+   ==================================== */
+.message {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    display: none;
+    animation: slideUp 0.4s ease-out;
+}
+
+.message.success {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #10b981;
+    display: block;
+}
+
+.message.error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    display: block;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    font-size: 1.1rem;
+    color: rgba(0, 255, 255, 0.8);
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #00f5ff;
+    animation: spin 1s linear infinite;
+    margin-left: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ====================================
+   Responsive
+   ==================================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .form-wrapper {
+        padding: 0 1rem;
+    }
+
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .search-input {
+        min-width: 100%;
+    }
+
+    .hackathons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-actions {
+        gap: 0.5rem;
+    }
+
+    .header-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-card {
+        padding: 1rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-body h3 {
+        font-size: 1.1rem;
+    }
+}

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D World - Infinex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="world.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">Infinex 3D World</div>
+        <ul class="nav-links">
+            <li><a href="../dashboard/dashboard.html">Back to Dashboard</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Controls Help -->
+    <div class="controls-panel">
+        <div class="controls-title">🎮 Controls</div>
+        <div class="controls-info">
+            <p>🖱️ Drag to rotate</p>
+            <p>🔍 Scroll to zoom</p>
+            <p>✋ Right-click to pan</p>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="spinner"></div>
+        <p>Loading 3D World...</p>
+    </div>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/"
+      }
+    }
+    </script>
+
+    <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+    // Scene Setup
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x87ceeb);
+    scene.fog = new THREE.Fog(0x87ceeb, 200, 1000);
+
+    // Camera Setup
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(10, 6, 15);
+
+    // Renderer Setup
+    const container = document.getElementById('canvas-container');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+
+    // Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(2, 3, 2);
+    controls.minPolarAngle = 0.1;
+    controls.maxPolarAngle = Math.PI / 2 - 0.02;
+    controls.minDistance = 8;
+    controls.maxDistance = 80;
+    controls.update();
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    sunLight.position.set(20, 30, 20);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 4096;
+    sunLight.shadow.mapSize.height = 4096;
+    sunLight.shadow.camera.far = 500;
+    sunLight.shadow.camera.left = -100;
+    sunLight.shadow.camera.right = 100;
+    sunLight.shadow.camera.top = 100;
+    sunLight.shadow.camera.bottom = -100;
+    scene.add(sunLight);
+
+    // Ground
+    const groundMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x228B22,
+        roughness: 0.8,
+        metalness: 0
+    });
+    const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(500, 500),
+        groundMaterial
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Load Model
+    const loader = new GLTFLoader();
+    const loadingScreen = document.getElementById('loadingScreen');
+    let modelLoaded = false;
+
+    console.log('🚀 Starting to load 3D model from: ./models/house.glb');
+    console.log('Current page URL:', window.location.href);
+    console.log('Model should be at:', new URL('./models/house.glb', window.location.href).href);
+    
+    // Pre-check: Try to fetch the file to ensure it exists and get size info
+    fetch('./models/house.glb?v=' + Date.now())
+        .then(response => {
+            console.log('Fetch response status:', response.status);
+            console.log('Fetch response size:', response.headers.get('content-length'), 'bytes');
+            return response.arrayBuffer();
+        })
+        .then(arrayBuffer => {
+            console.log('✅ File fetched successfully, size:', arrayBuffer.byteLength, 'bytes');
+            // Check magic number
+            const view = new Uint8Array(arrayBuffer);
+            if (view[0] === 0x67 && view[1] === 0x6c && view[2] === 0x54 && view[3] === 0x46) {
+                console.log('✅ GLB magic number verified');
+            } else {
+                throw new Error('Invalid GLB magic number');
+            }
+        })
+        .catch(err => console.error('Fetch pre-check error:', err));
+    
+    loader.load(
+        "./models/house.glb?v=" + Date.now(),
+        (gltf) => {
+            console.log('✅ Model loaded successfully!');
+            modelLoaded = true;
+            const model = gltf.scene;
+
+            // Auto-scale and center model
+            const box = new THREE.Box3().setFromObject(model);
+            const size = box.getSize(new THREE.Vector3());
+            const center = box.getCenter(new THREE.Vector3());
+            console.log('Model size:', size);
+
+            const scaleFactor = 10 / Math.max(size.x, size.y, size.z);
+            model.scale.setScalar(scaleFactor);
+
+            box.setFromObject(model);
+            box.getCenter(center);
+            model.position.sub(center);
+
+            // Set shadows
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    if (child.material) {
+                        child.material.envMapIntensity = 1;
+                    }
+                }
+            });
+
+            scene.add(model);
+            console.log('✅ Model added to scene');
+
+            // Adjust camera
+            const newSize = box.getSize(new THREE.Vector3());
+            const height = newSize.y;
+            camera.position.set(0, height * 0.75, height * 1.45);
+            controls.target.set(0, height * 0.38, 0);
+            controls.minDistance = height * 0.7;
+            controls.maxDistance = height * 2.8;
+            controls.update();
+
+            // Hide loading screen
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                console.log('✅✅✅ 3D MODEL NOW VISIBLE! ✅✅✅');
+            }, 300);
+        },
+        (progress) => {
+            const percent = Math.round((progress.loaded / progress.total) * 100);
+            console.log('📦 Loading: ' + percent + '%');
+            loadingScreen.querySelector('p').textContent = `Loading 3D World... ${percent}%`;
+        },
+        (error) => {
+            console.error('❌ GLTFLoader error:', error);
+            console.error('Error message:', error.message);
+            console.error('Error stack:', error.stack);
+            
+            // Try alternative loading method
+            console.log('Attempting alternative loading method...');
+            fetch('./models/house.glb?v=' + Date.now())
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer => {
+                    console.log('✅ Array buffer loaded:', arrayBuffer.byteLength, 'bytes');
+                    try {
+                        loader.parse(arrayBuffer, './', function(gltf) {
+                            console.log('✅ Fallback parse successful!');
+                            scene.add(gltf.scene);
+                            
+                            // Adjust camera
+                            const box = new THREE.Box3().setFromObject(gltf.scene);
+                            const newSize = box.getSize(new THREE.Vector3());
+                            const height = newSize.y;
+                            camera.position.set(0, height * 0.75, height * 1.45);
+                            controls.target.set(0, height * 0.38, 0);
+                            controls.minDistance = height * 0.7;
+                            controls.maxDistance = height * 2.8;
+                            controls.update();
+                            
+                            loadingScreen.style.opacity = '0';
+                            setTimeout(() => {
+                                loadingScreen.style.display = 'none';
+                                console.log('✅ Model loaded via fallback method!');
+                            }, 300);
+                        }, (event) => {
+                            console.error('Fallback parse error:', event);
+                            throw event;
+                        });
+                    } catch(parseError) {
+                        throw parseError;
+                    }
+                })
+                .catch(fallbackError => {
+                    console.error('❌ Fallback method also failed:', fallbackError);
+                    
+                    // Create fallback object
+                    console.log('Creating fallback 3D object...');
+                    const fallbackGeometry = new THREE.BoxGeometry(8, 8, 8);
+                    const fallbackMaterial = new THREE.MeshStandardMaterial({
+                        color: 0x00d4ff,
+                        roughness: 0.4,
+                        metalness: 0.2
+                    });
+                    const fallbackMesh = new THREE.Mesh(fallbackGeometry, fallbackMaterial);
+                    fallbackMesh.castShadow = true;
+                    fallbackMesh.receiveShadow = true;
+                    scene.add(fallbackMesh);
+                    
+                    // Adjust camera for fallback
+                    camera.position.set(0, 6, 15);
+                    controls.target.set(0, 3, 0);
+                    controls.minDistance = 12;
+                    controls.maxDistance = 40;
+                    controls.update();
+                    
+                    loadingScreen.innerHTML = '<p style="color: #fbbf24; font-size: 1rem; font-weight: 600;">⚠️ Using fallback display<br/><small style="font-size: 0.85rem;">Model loading issue detected</small></p>';
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            console.log('✅ Fallback 3D object now visible');
+                        }, 300);
+                    }, 2000);
+                });
+        }
+    );
+
+    // Handle window resize
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '../auth/login.html';
+    });
+    </script>
+
+    <script src="world.js"></script>
+</body>
+</html>
