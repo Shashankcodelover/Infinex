@@ -12,9 +12,27 @@
   <nav class="navbar">
     <div class="navbar-brand">Infinex</div>
     <ul class="nav-links">
+      <li><a href="#" onclick="navigateTo('profile')">👤 Profile</a></li>
       <li><a href="#" id="logoutBtn">Logout</a></li>
     </ul>
   </nav>
+
+  <!-- Message HUD -->
+  <div class="message-hud">
+    <div class="message-indicator">
+      <span class="message-icon">⋯</span>
+      <span class="message-count" id="dashMsgCount">0</span>
+    </div>
+    <div class="message-dropdown" id="dashMessageDropdown">
+      <div class="message-header">
+        <span class="message-title">🔔 Notifications</span>
+        <button class="close-btn" id="dashCloseBtn">&times;</button>
+      </div>
+      <div class="message-list" id="dashMessageList">
+        <p class="no-messages">No new notifications</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Particle Canvas -->
   <canvas id="particles"></canvas>
@@ -27,49 +45,27 @@
       <div class="quick-nav">
         <button class="quick-nav-btn" onclick="navigateTo('create')">📝 Create Hackathon</button>
         <button class="quick-nav-btn" onclick="navigateTo('view')">📋 View Hackathons</button>
+        <button class="quick-nav-btn" onclick="navigateTo('team')">👥 Make Your Team</button>
         <button class="quick-nav-btn" onclick="navigateTo('world')">🌍 Explore World</button>
       </div>
     </div>
 
-    <!-- Form Section -->
-    <div class="form-container">
-      <div class="form-card">
-        <h2>Create New Hackathon</h2>
-        
-        <form id="formInputs">
-          <div class="form-group">
-            <input type="text" id="name" placeholder="Hackathon Name" required>
-          </div>
-          <div class="form-group">
-            <input type="text" id="description" placeholder="Description">
-          </div>
-          <div class="form-group">
-            <input type="date" id="date" required>
-          </div>
-          <div class="form-group">
-            <input type="text" id="location" placeholder="Location">
-          </div>
-          <div class="form-group">
-            <input type="file" id="logo">
-          </div>
-          <button type="button" onclick="addHackathon()" class="btn-primary">Insert Hackathon</button>
-        </form>
+    <!-- Hackathons Grid Section -->
+    <div class="section-wrapper">
+      <div class="section-header">
+        <h2>Hackathons List</h2>
+        <button onclick="getHackathons()" class="btn-secondary">🔄 Refresh</button>
       </div>
-    </div>
 
-    <!-- Fetch Section -->
-    <div class="fetch-container">
-      <button onclick="getHackathons()" class="btn-primary" style="font-size: 1rem; padding: 12px 30px;">📊 Fetch & Display Hackathons</button>
-    </div>
+      <!-- Hackathons Grid -->
+      <div class="hackathons-grid" id="hackathons"></div>
 
-    <!-- Hackathons Grid -->
-    <div class="hackathons-grid" id="hackathons"></div>
-
-    <!-- Empty State -->
-    <div id="emptyState" class="empty-state" style="display: none; text-align: center; padding: 3rem; margin-top: 2rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 15px;">
-      <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
-      <h3 style="margin-bottom: 0.5rem;">No hackathons displayed</h3>
-      <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Click the "Fetch & Display Hackathons" button to view all hackathons</p>
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none; text-align: center; padding: 3rem; margin-top: 2rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 15px;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+        <h3 style="margin-bottom: 0.5rem;">No hackathons available</h3>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Create a new hackathon to get started</p>
+      </div>
     </div>
   </div>
 
@@ -84,6 +80,10 @@
             window.location.href = '../hackathon/view.html';
         } else if (page === 'world') {
             window.location.href = '../world/world.html';
+        } else if (page === 'team') {
+            window.location.href = '../team/team.html';
+        } else if (page === 'profile') {
+            window.location.href = '../profile/profile.html';
         }
     }
 
@@ -95,11 +95,51 @@
         window.location.href = '../auth/login.html';
     });
 
+    // Dashboard Message HUD functionality
+    const dashIndicator = document.querySelector('.message-indicator');
+    const dashDropdown = document.getElementById('dashMessageDropdown');
+    const dashClose = document.getElementById('dashCloseBtn');
+    const dashCount = document.getElementById('dashMsgCount');
+    const dashList = document.getElementById('dashMessageList');
+
+    dashIndicator.addEventListener('click', () => {
+        dashDropdown.classList.toggle('active');
+    });
+    dashClose.addEventListener('click', () => dashDropdown.classList.remove('active'));
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.message-hud')) {
+            dashDropdown.classList.remove('active');
+        }
+    });
+
+    function updateDashboardMessages() {
+        const messages = JSON.parse(localStorage.getItem('dashboardMessages') || '[]');
+        const unread = messages.filter(m => !m.read).length;
+        dashCount.textContent = unread;
+        dashCount.style.display = unread > 0 ? 'flex' : 'none';
+        if (messages.length === 0) {
+            dashList.innerHTML = '<p class="no-messages">No new notifications</p>';
+        } else {
+            dashList.innerHTML = messages.map(msg => `
+                <div class="message-item ${msg.read ? 'read' : 'unread'}">
+                    <span class="msg-avatar">🔔</span>
+                    <div class="msg-content">
+                        <div class="msg-sender">${msg.sender || 'System'}</div>
+                        <div class="msg-text">${msg.text}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+    updateDashboardMessages();
+    setInterval(updateDashboardMessages, 5000);
+
+
     // User greeting
     function displayUserGreeting() {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
-        if (user.username) {
-            document.getElementById('userGreeting').textContent = `Welcome back, ${user.username}!`;
+        if (user.name) {
+            document.getElementById('userGreeting').textContent = `Welcome back, ${user.name}!`;
         }
     }
 
@@ -144,61 +184,6 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     });
-  </script>
-
-  <script>
-
-    async function addHackathon() {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          alert('Please login first');
-          return;
-        }
-        
-        const name = document.getElementById("name").value.trim();
-        const description = document.getElementById("description").value.trim();
-        const date = document.getElementById("date").value;
-        const location = document.getElementById("location").value.trim();
-        
-        if (!name || !date || !location) {
-          alert('Please fill all required fields');
-          return;
-        }
-        
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("startDate", date);
-        formData.append("endDate", date);
-        formData.append("location", location);
-        
-        if (document.getElementById("logo").files[0]) {
-          formData.append("logo", document.getElementById("logo").files[0]);
-        }
-
-        const response = await fetch("http://localhost:5000/api/hackathons", {
-          method: "POST",
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          body: formData
-        });
-
-        const data = await response.json();
-        
-        if (response.ok) {
-          alert("✅ Hackathon created successfully!");
-          document.getElementById("formInputs").reset();
-          getHackathons();
-        } else {
-          alert(data.message || "❌ Failed to create hackathon");
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Error creating hackathon. Check console for details.');
-      }
-    }
 
     async function getHackathons() {
       try {
@@ -227,8 +212,6 @@
         data.forEach(h => {
           const div = document.createElement("div");
           div.className = "hackathon-card";
-          const status = new Date() < new Date(h.startDate || h.date) ? 'Upcoming' : new Date() > new Date(h.endDate || h.date) ? 'Completed' : 'Ongoing';
-          const statusColor = status === 'Upcoming' ? '#00f5ff' : status === 'Ongoing' ? '#10b981' : '#ef4444';
           
           div.innerHTML = `
             <div class="card-header">
@@ -236,10 +219,10 @@
             </div>
             <div class="card-body">
               <h3>${h.name}</h3>
-              <p style="color: ${statusColor}; font-weight: 600;">Status: ${status}</p>
               <p class="description">${h.description || 'No description'}</p>
-              <p class="date">📅 ${new Date(h.startDate || h.date).toDateString()}</p>
+              <p class="date">📅 ${new Date(h.date).toDateString()}</p>
               <p class="location">📍 ${h.location}</p>
+              <p class="link"><a href="${h.hostingLink}" target="_blank">🔗 Register Here</a></p>
             </div>
           `;
           container.appendChild(div);
@@ -255,10 +238,68 @@
     document.addEventListener('DOMContentLoaded', () => {
         displayUserGreeting();
         const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const userId = user._id || user.id;
         if (!token) {
             window.location.href = '../auth/login.html';
         }
+        getHackathons();
+        loadDashboardNotifications(userId);
     });
+
+    async function loadDashboardNotifications(userId) {
+        let count = 0;
+        const token = localStorage.getItem('token');
+        try {
+            // pending invites
+            const res = await fetch(`${API_BASE_URL}/teams/user/${userId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const teams = await res.json();
+                teams.forEach(t => {
+                    t.members.forEach(m => {
+                        if (m.userId._id === userId && m.status === 'invited') count++;
+                    });
+                });
+            }
+            // unread messages (since lastSeen)
+            const lastSeen = localStorage.getItem('lastSeen') || 0;
+            const convRes = await fetch(`${API_BASE_URL}/chat/conversations/user/${userId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (convRes.ok) {
+                const convs = await convRes.json();
+                for (const c of convs) {
+                    const msgRes = await fetch(`${API_BASE_URL}/chat/conversation/${c._id}/messages`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (msgRes.ok) {
+                        const msgs = await msgRes.json();
+                        msgs.forEach(m => {
+                            if (new Date(m.createdAt) > new Date(lastSeen) && m.sender._id !== userId) {
+                                count++;
+                            }
+                        });
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('notification error', e);
+        }
+        let btn = document.querySelector('.notif-btn');
+        if (!btn) {
+            btn = document.createElement('button');
+            btn.className = 'notif-btn';
+            btn.addEventListener('click', () => {
+                // reset lastSeen and go to team page
+                localStorage.setItem('lastSeen', new Date().toISOString());
+                window.location.href = '../team/team.html';
+            });
+            document.body.appendChild(btn);
+        }
+        btn.textContent = count || '';
+    }
 
   </script>
 

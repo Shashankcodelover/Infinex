@@ -30,8 +30,11 @@ if (loginForm) {
         return;
       }
 
-      // Save token
+      // Save token and user info
       localStorage.setItem("token", data.token);
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
 
       // Redirect
       window.location.href = "../dashboard/dashboard.html";

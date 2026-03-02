@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 1 - Infinex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="world.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">Infinex Level 1</div>
+        <ul class="nav-links">
+            <li><a href="worlds.html">Back to Worlds</a></li>
+            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Controls Help -->
+    <div class="controls-panel">
+        <div class="controls-title">🎮 Controls</div>
+        <div class="controls-info">
+            <p>🖱️ Drag to rotate</p>
+            <p>🔍 Scroll to zoom</p>
+            <p>✋ Right-click to pan</p>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="spinner"></div>
+        <p>Loading Level 1...</p>
+    </div>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/"
+      }
+    }
+    </script>
+
+    <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+    // Scene Setup - Level 1 World
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x87ceeb); // Light blue sky
+    scene.fog = new THREE.Fog(0x87ceeb, 200, 1000);
+    window.scene = scene;
+    window.THREE = THREE;
+
+    // Camera Setup - Ground Level Positioning
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(10, 6, 15);
+
+    // Renderer Setup
+    const container = document.getElementById('canvas-container');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+
+    // Controls - Ground Level Camera Constraints
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(2, 3, 2);
+    controls.minPolarAngle = 0.1; // Prevent camera from going below ground
+    controls.maxPolarAngle = Math.PI / 2 - 0.02; // Prevent camera from going below ground
+    controls.minDistance = 8;
+    controls.maxDistance = 80;
+    controls.update();
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    sunLight.position.set(20, 30, 20);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 4096;
+    sunLight.shadow.mapSize.height = 4096;
+    sunLight.shadow.camera.far = 500;
+    sunLight.shadow.camera.left = -100;
+    sunLight.shadow.camera.right = 100;
+    sunLight.shadow.camera.top = 100;
+    sunLight.shadow.camera.bottom = -100;
+    scene.add(sunLight);
+
+    // Ground - Green Ground Plane
+    const groundMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x228B22, // Forest green
+        roughness: 0.8,
+        metalness: 0
+    });
+    const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(500, 500),
+        groundMaterial
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Load Level 1 Model
+    const loader = new GLTFLoader();
+    const loadingScreen = document.getElementById('loadingScreen');
+    let modelLoaded = false;
+
+    console.log('🚀 Loading Level 1 model...');
+    
+    loader.load(
+        './models/level1.glb',
+        (gltf) => {
+            console.log('✅ Level 1 model loaded successfully');
+            const model = gltf.scene;
+            
+            // Position model at ground level
+            model.position.set(0, 0, 0);
+            
+            // Configure model shadows
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+            
+            scene.add(model);
+            modelLoaded = true;
+            
+            // Hide loading screen
+            loadingScreen.style.display = 'none';
+        },
+        (progress) => {
+            console.log('Loading progress:', (progress.loaded / progress.total * 100).toFixed(2) + '%');
+        },
+        (error) => {
+            console.error('Error loading Level 1 model:', error);
+            loadingScreen.innerHTML = '<p>Error loading model. Check console.</p>';
+        }
+    );
+
+    // Animation Loop
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle Window Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        window.location.href = '../auth/login.html';
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (confirm('Return to worlds?')) {
+                window.location.href = 'worlds.html';
+            }
+        }
+    });
+
+    console.log('🌍 Level 1 World initialized');
+    console.log('Controls:');
+    console.log('  - Left drag to rotate');
+    console.log('  - Scroll to zoom');
+    console.log('  - Right drag to pan');
+    console.log('  - Press ESC to return to worlds');
+
+    </script>
+</body>
+</html>

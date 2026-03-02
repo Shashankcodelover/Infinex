@@ -5,10 +5,10 @@ const Hackathon = require('../models/hackathonModel');
 // @access  Public
 const createHackathon = async (req, res) => {
   try {
-    const { name, description, date, location } = req.body;
+    const { name, description, date, location, hostingLink } = req.body;
 
-    if (!name || !description || !date || !location) {
-      return res.status(400).json({ message: "All fields are required" });
+    if (!name || !description || !date || !location || !hostingLink) {
+      return res.status(400).json({ message: "All fields including hosting link are required" });
     }
 
     const hackathon = await Hackathon.create({
@@ -16,6 +16,7 @@ const createHackathon = async (req, res) => {
       description,
       date,
       location,
+      hostingLink,
       logo: req.file ? req.file.path : null
     });
 
@@ -37,7 +38,27 @@ const getHackathons = async (req, res) => {
   }
 };
 
+// @desc    Delete a hackathon
+// @route   DELETE /api/hackathons/:id
+// @access  Public
+const deleteHackathon = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const hackathon = await Hackathon.findByIdAndDelete(id);
+    
+    if (!hackathon) {
+      return res.status(404).json({ message: "Hackathon not found" });
+    }
+
+    res.json({ message: "Hackathon deleted successfully", hackathon });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createHackathon,
-  getHackathons
+  getHackathons,
+  deleteHackathon
 };

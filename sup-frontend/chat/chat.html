@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <header>
+        <h2 id="chatTitle">Chat</h2>
+        <nav><a href="../dashboard/dashboard.html">↩ Dashboard</a></nav>
+    </header>
+    <div id="messagesContainer"></div>
+    <form id="messageForm">
+        <input type="text" id="messageInput" placeholder="Type a message" autocomplete="off">
+        <input type="file" id="attachmentInput" multiple>
+        <button type="submit">Send</button>
+    </form>
+    <script src="chat.js"></script>
+</body>
+</html>

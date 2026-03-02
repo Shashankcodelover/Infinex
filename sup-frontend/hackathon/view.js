@@ -52,7 +52,7 @@ function displayHackathons(hackathons) {
     container.innerHTML = '';
 
     hackathons.forEach(h => {
-        const status = getHackathonStatus(h.startDate, h.endDate);
+        const status = getHackathonStatus(h.date || h.startDate, h.date || h.endDate);
         const card = document.createElement('div');
         card.className = 'hackathon-card';
         card.innerHTML = `
@@ -63,12 +63,10 @@ function displayHackathons(hackathons) {
                 <h3>${h.name}</h3>
                 <p><strong>Status:</strong> <span style="color: ${getStatusColor(status)};">${status}</span></p>
                 <p>${h.description.substring(0, 80)}...</p>
-                <p>📅 ${new Date(h.startDate).toDateString()} - ${new Date(h.endDate).toDateString()}</p>
+                <p>📅 ${new Date(h.date).toDateString()}</p>
                 <p>📍 ${h.location}</p>
-                <p>💰 Prize: $${h.prizePool || 0}</p>
-                <p>👥 Max: ${h.maxParticipants || 'N/A'} participants</p>
-                <div class="card-actions">
-                    <button class="btn btn-primary" onclick="editHackathon('${h._id}')">Edit</button>
+                <p style="margin-top: 10px;"><a href="${h.hostingLink}" target="_blank" style="color: #00f5ff; text-decoration: none; font-weight: 600;">🔗 Join Hackathon</a></p>
+                <div class="card-actions" style="margin-top: 15px;">
                     <button class="btn btn-secondary" onclick="deleteHackathon('${h._id}')">Delete</button>
                 </div>
             </div>

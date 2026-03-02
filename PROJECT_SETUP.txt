@@ -1,9 +1,18 @@
 INFINEX PROJECT SETUP GUIDE
 
+
+email: 
+- nsample@gmail.com
+password: 12312312
+- alice@example.com
+‑ bob@example.com
+‑ carol@example.com
+password : password123
+
 PROJECT STRUCTURE
 
-After cloning or pulling the repository, your project folder should look like this:								     sample entry    email: sample@gmail.com
-																				  password: 123123123
+After cloning or pulling the repository, your project folder should look like this:								   
+ 
 Infinex/
 │
 ├── sup-backend/
