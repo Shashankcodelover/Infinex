@@ -18,9 +18,9 @@ document.getElementById('createForm').addEventListener('submit', async (e) => {
         const formData = new FormData();
         formData.append('name', document.getElementById('name').value);
         formData.append('description', document.getElementById('description').value);
-        formData.append('startDate', document.getElementById('startDate').value);
-        formData.append('endDate', document.getElementById('endDate').value);
+        formData.append('date', document.getElementById('startDate').value);
         formData.append('location', document.getElementById('location').value);
+        formData.append('hostingLink', document.getElementById('hostingLink').value);
         formData.append('prizePool', document.getElementById('prizePool').value || 0);
         formData.append('maxParticipants', document.getElementById('maxParticipants').value || 100);
         

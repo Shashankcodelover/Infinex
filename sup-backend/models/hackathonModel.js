@@ -21,6 +21,11 @@ const hackathonSchema = new mongoose.Schema(
     },
     logo: {
       type: String // this will store image path later
+    },
+    hostingLink: {
+      type: String,
+      required: true, // Must have hosting link to register
+      trim: true
     }
   },
   { timestamps: true }

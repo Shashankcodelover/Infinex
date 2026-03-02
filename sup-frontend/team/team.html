@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Your Team - Infinex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="team.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">Infinex</div>
+        <ul class="nav-links">
+            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Particle Canvas -->
+    <canvas id="particles"></canvas>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Make Your Team</h1>
+            <p>Build your squad and collaborate with talented coders</p>
+        </div>
+
+        <!-- Create Team Section -->
+        <div class="section-wrapper">
+            <h2 class="section-title">Create a New Team</h2>
+            <div class="form-card">
+                <form id="createTeamForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Team Name *</label>
+                            <input type="text" id="teamName" placeholder="Enter team name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Max Members</label>
+                            <input type="number" id="maxMembers" placeholder="5" value="5" min="2" max="20">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="description" placeholder="What is your team about?" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Team Domains (comma separated)</label>
+                        <input type="text" id="domains" placeholder="AI/ML, Web Dev, Mobile">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create Team</button>
+                    <div id="createTeamMessage" class="message"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- My Teams Section -->
+        <div class="section-wrapper">
+            <h2 class="section-title">My Teams</h2>
+            <div id="myTeamsList" class="teams-grid">
+                <div class="loading">Loading your teams...</div>
+            </div>
+        </div>
+
+        <!-- Teammate Recommendations Section -->
+        <div class="section-wrapper">
+            <div class="recommendations-header">
+                <h2 class="section-title">Recommended Teammates</h2>
+                <div class="filter-controls">
+                    <select id="domainFilter" class="filter-select">
+                        <option value="">All Domains</option>
+                        <option value="AI/ML">AI/ML</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Mobile Apps">Mobile Apps</option>
+                        <option value="Blockchain">Blockchain</option>
+                        <option value="Game Dev">Game Dev</option>
+                    </select>
+                </div>
+            </div>
+            <div id="recommendationsList" class="users-grid">
+                <div class="loading">Loading recommendations...</div>
+            </div>
+        </div>
+
+        <!-- Team Invites Section -->
+        <div class="section-wrapper">
+            <h2 class="section-title">Pending Invites</h2>
+            <div id="invitesList" class="invites-grid">
+                <div class="empty-state">Loading invites...</div>
+            </div>
+        </div>
+
+        <!-- Chat Modal -->
+        <div id="chatModal" class="chat-modal hidden">
+            <div class="chat-header">
+                <button id="chatClose">← Back</button>
+                <span id="chatModalTitle">Chat</span>
+            </div>
+            <div id="chatMessagesContainer" class="chat-messages"></div>
+            <form id="chatMessageForm" class="chat-form">
+                <input type="text" id="chatMessageInput" placeholder="Type a message" autocomplete="off">
+                <input type="file" id="chatAttachmentInput" multiple>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+        <div id="globalMessage" class="message"></div>
+    </div>
+
+    <script>
+        // Particle animation
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1,
+                dx: (Math.random() - 0.5) * 0.2,
+                dy: (Math.random() - 0.5) * 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0,255,255,0.4)";
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+
+    <script src="team.js"></script>
+</body>
+</html>

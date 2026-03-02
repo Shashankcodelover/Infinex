@@ -4,7 +4,8 @@ const path = require('path');
 
 const {
   createHackathon,
-  getHackathons
+  getHackathons,
+  deleteHackathon
 } = require('../controllers/hackathonController');
 
 const router = express.Router();
@@ -24,5 +25,6 @@ const upload = multer({ storage });
 // Routes
 router.post('/', upload.single('logo'), createHackathon);
 router.get('/', getHackathons);
+router.delete('/:id', deleteHackathon);
 
 module.exports = router;

@@ -12,7 +12,7 @@
     <nav class="navbar">
         <div class="navbar-brand">Infinex 3D World</div>
         <ul class="nav-links">
-            <li><a href="../dashboard/dashboard.html">Back to Dashboard</a></li>
+            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
             <li><a href="#" id="logoutBtn">Logout</a></li>
         </ul>
     </nav>
@@ -28,6 +28,37 @@
             <p>🔍 Scroll to zoom</p>
             <p>✋ Right-click to pan</p>
         </div>
+    </div>
+
+    <!-- Message Indicator HUD -->
+    <div class="message-hud">
+        <div class="message-indicator">
+            <span class="message-icon">💬</span>
+            <span class="message-count" id="messageCount">0</span>
+        </div>
+        <div class="message-dropdown" id="messageDropdown">
+            <div class="message-header">
+                <span class="message-title">📨 Messages</span>
+                <button class="close-btn" id="closeMsgBtn">&times;</button>
+            </div>
+            <div class="message-list" id="messageList">
+                <p class="no-messages">No new messages</p>
+            </div>
+        </div>
+    </div>
+    <!-- Build Panel -->
+    <div class="build-panel">
+        <div class="controls-title">🏠 Build</div>
+        <button id="roofBtn">Add Roof</button>
+        <button id="floorBtn">Add 2nd Floor</button>
+        <button id="resetBtn">Reset House</button>
+    </div>
+
+    <!-- Build Panel for house stages -->
+    <div class="build-panel">
+        <strong>Build House</strong>
+        <button onclick="addRoof()">Add Roof</button>
+        <button onclick="addSecondFloor()">Add Second Floor</button>
     </div>
 
     <!-- Loading Screen -->
@@ -54,6 +85,10 @@
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x87ceeb);
     scene.fog = new THREE.Fog(0x87ceeb, 200, 1000);
+    // expose for external scripts
+    window.scene = scene;
+    // expose THREE so world.js can create geometry
+    window.THREE = THREE;
 
     // Camera Setup
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -76,7 +111,7 @@
     controls.minPolarAngle = 0.1;
     controls.maxPolarAngle = Math.PI / 2 - 0.02;
     controls.minDistance = 8;
-    controls.maxDistance = 80;
+    controls.maxDistance = 84; // Zoomed out a further ~5%
     controls.update();
 
     // Lighting
@@ -114,12 +149,12 @@
     const loadingScreen = document.getElementById('loadingScreen');
     let modelLoaded = false;
 
-    console.log('🚀 Starting to load 3D model from: ./models/house.glb');
+    console.log('🚀 Starting to load 3D model from: ./models/level1.glb');
     console.log('Current page URL:', window.location.href);
-    console.log('Model should be at:', new URL('./models/house.glb', window.location.href).href);
+    console.log('Model should be at:', new URL('./models/level1.glb', window.location.href).href);
     
     // Pre-check: Try to fetch the file to ensure it exists and get size info
-    fetch('./models/house.glb?v=' + Date.now())
+    fetch('./models/level1.glb?v=' + Date.now())
         .then(response => {
             console.log('Fetch response status:', response.status);
             console.log('Fetch response size:', response.headers.get('content-length'), 'bytes');
@@ -138,7 +173,7 @@
         .catch(err => console.error('Fetch pre-check error:', err));
     
     loader.load(
-        "./models/house.glb?v=" + Date.now(),
+        "./models/level1.glb?v=" + Date.now(),
         (gltf) => {
             console.log('✅ Model loaded successfully!');
             modelLoaded = true;
@@ -150,12 +185,17 @@
             const center = box.getCenter(new THREE.Vector3());
             console.log('Model size:', size);
 
-            const scaleFactor = 10 / Math.max(size.x, size.y, size.z);
+            // Scale the model appropriately
+            const scaleFactor = 8 / Math.max(size.x, size.y, size.z);
             model.scale.setScalar(scaleFactor);
 
+            // Recalculate box after scaling
             box.setFromObject(model);
             box.getCenter(center);
-            model.position.sub(center);
+            
+            // Position model: center X and Z, but keep bottom above ground on Y
+            const minY = box.min.y;
+            model.position.set(-center.x, -minY + 0.1, -center.z);
 
             // Set shadows
             model.traverse((child) => {
@@ -171,13 +211,14 @@
             scene.add(model);
             console.log('✅ Model added to scene');
 
-            // Adjust camera
-            const newSize = box.getSize(new THREE.Vector3());
+            // Adjust camera based on model height
+            const newBox = new THREE.Box3().setFromObject(model);
+            const newSize = newBox.getSize(new THREE.Vector3());
             const height = newSize.y;
-            camera.position.set(0, height * 0.75, height * 1.45);
-            controls.target.set(0, height * 0.38, 0);
-            controls.minDistance = height * 0.7;
-            controls.maxDistance = height * 2.8;
+            camera.position.set(0, height * 0.6, height * 1.2);
+            controls.target.set(0, height * 0.3, 0);
+            controls.minDistance = height * 0.6;
+            controls.maxDistance = height * 2.5;
             controls.update();
 
             // Hide loading screen
@@ -194,75 +235,12 @@
         },
         (error) => {
             console.error('❌ GLTFLoader error:', error);
-            console.error('Error message:', error.message);
-            console.error('Error stack:', error.stack);
-            
-            // Try alternative loading method
-            console.log('Attempting alternative loading method...');
-            fetch('./models/house.glb?v=' + Date.now())
-                .then(response => response.arrayBuffer())
-                .then(arrayBuffer => {
-                    console.log('✅ Array buffer loaded:', arrayBuffer.byteLength, 'bytes');
-                    try {
-                        loader.parse(arrayBuffer, './', function(gltf) {
-                            console.log('✅ Fallback parse successful!');
-                            scene.add(gltf.scene);
-                            
-                            // Adjust camera
-                            const box = new THREE.Box3().setFromObject(gltf.scene);
-                            const newSize = box.getSize(new THREE.Vector3());
-                            const height = newSize.y;
-                            camera.position.set(0, height * 0.75, height * 1.45);
-                            controls.target.set(0, height * 0.38, 0);
-                            controls.minDistance = height * 0.7;
-                            controls.maxDistance = height * 2.8;
-                            controls.update();
-                            
-                            loadingScreen.style.opacity = '0';
-                            setTimeout(() => {
-                                loadingScreen.style.display = 'none';
-                                console.log('✅ Model loaded via fallback method!');
-                            }, 300);
-                        }, (event) => {
-                            console.error('Fallback parse error:', event);
-                            throw event;
-                        });
-                    } catch(parseError) {
-                        throw parseError;
-                    }
-                })
-                .catch(fallbackError => {
-                    console.error('❌ Fallback method also failed:', fallbackError);
-                    
-                    // Create fallback object
-                    console.log('Creating fallback 3D object...');
-                    const fallbackGeometry = new THREE.BoxGeometry(8, 8, 8);
-                    const fallbackMaterial = new THREE.MeshStandardMaterial({
-                        color: 0x00d4ff,
-                        roughness: 0.4,
-                        metalness: 0.2
-                    });
-                    const fallbackMesh = new THREE.Mesh(fallbackGeometry, fallbackMaterial);
-                    fallbackMesh.castShadow = true;
-                    fallbackMesh.receiveShadow = true;
-                    scene.add(fallbackMesh);
-                    
-                    // Adjust camera for fallback
-                    camera.position.set(0, 6, 15);
-                    controls.target.set(0, 3, 0);
-                    controls.minDistance = 12;
-                    controls.maxDistance = 40;
-                    controls.update();
-                    
-                    loadingScreen.innerHTML = '<p style="color: #fbbf24; font-size: 1rem; font-weight: 600;">⚠️ Using fallback display<br/><small style="font-size: 0.85rem;">Model loading issue detected</small></p>';
-                    setTimeout(() => {
-                        loadingScreen.style.opacity = '0';
-                        setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                            console.log('✅ Fallback 3D object now visible');
-                        }, 300);
-                    }, 2000);
-                });
+            // simply show failure message and leave ground empty
+            loadingScreen.querySelector('p').textContent = '⚠️ Model unavailable';
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => loadingScreen.style.display = 'none', 300);
+            }, 1500);
         }
     );
 
@@ -281,6 +259,12 @@
     }
     animate();
 
+    // expose objects for build controls
+    window.scene = scene;
+    window.camera = camera;
+    window.renderer = renderer;
+    window.controls = controls;
+
     // Logout functionality
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
         e.preventDefault();
@@ -288,6 +272,60 @@
         localStorage.removeItem('user');
         window.location.href = '../auth/login.html';
     });
+
+    // Message HUD Functionality
+    const messageIndicator = document.querySelector('.message-indicator');
+    const messageDropdown = document.getElementById('messageDropdown');
+    const closeMsgBtn = document.getElementById('closeMsgBtn');
+    const messageCount = document.getElementById('messageCount');
+    const messageList = document.getElementById('messageList');
+
+    // Toggle message dropdown on indicator click
+    messageIndicator.addEventListener('click', () => {
+        messageDropdown.classList.toggle('active');
+    });
+
+    // Close dropdown button
+    closeMsgBtn.addEventListener('click', () => {
+        messageDropdown.classList.remove('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.message-hud')) {
+            messageDropdown.classList.remove('active');
+        }
+    });
+
+    // Function to update message count and list
+    function updateMessages() {
+        // Fetch messages from backend or local storage
+        const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+        const unreadCount = messages.filter(m => !m.read).length;
+        
+        messageCount.textContent = unreadCount;
+        messageCount.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+        if (messages.length === 0) {
+            messageList.innerHTML = '<p class="no-messages">No new messages</p>';
+        } else {
+            messageList.innerHTML = messages.map((msg, idx) => `
+                <div class="message-item ${msg.read ? 'read' : 'unread'}">
+                    <span class="msg-avatar">👤</span>
+                    <div class="msg-content">
+                        <div class="msg-sender">${msg.sender || 'Team Member'}</div>
+                        <div class="msg-text">${msg.text}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Initialize messages
+    updateMessages();
+
+    // Listen for message updates (every 5 seconds)
+    setInterval(updateMessages, 5000);
     </script>
 
     <script src="world.js"></script>
