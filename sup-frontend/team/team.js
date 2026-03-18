@@ -21,6 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMyTeams(currentUserId);
     loadRecommendations(currentUserId);
     loadPendingInvites(currentUserId);
+    const indicator = document.querySelector('.message-indicator');
+    const dropdown = document.getElementById('teamMessageDropdown');
+    const closeBtn = document.getElementById('teamCloseBtn');
+    if (indicator && dropdown) {
+        indicator.addEventListener('click', () => dropdown.classList.toggle('active'));
+        if (closeBtn) closeBtn.addEventListener('click', () => dropdown.classList.remove('active'));
+    }
+    document.addEventListener('click', (e) => {
+        if (dropdown && !e.target.closest('.message-hud')) dropdown.classList.remove('active');
+    });
     loadNotifications();
 });
 
@@ -444,50 +454,35 @@ async function sendChatMessage(e) {
 // --------- Notifications ---------
 async function loadNotifications() {
     let count = 0;
+    let notifs = [];
     try {
-        // pending invites
         const res = await fetch(`${API_BASE_URL}/teams/user/${currentUserId}`, {
-            headers: { 'Authorization': `Bearer ${currentToken}` }
+            headers: { "Authorization": `Bearer ${currentToken}` }
         });
         if (res.ok) {
             const teams = await res.json();
             teams.forEach(t => {
                 t.members.forEach(m => {
-                    if (m.userId._id === currentUserId && m.status === 'invited') count++;
+                    if (m.userId._id === currentUserId && m.status === "invited") {
+                        count++;
+                        notifs.push({ sender: t.leader.name, text: `Invited to: ${t.teamName}` });
+                    }
                 });
             });
         }
-        // unread messages
-        const lastSeen = localStorage.getItem('lastSeen') || 0;
-        const convRes = await fetch(`${API_BASE_URL}/chat/conversations/user/${currentUserId}`, {
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
-        if (convRes.ok) {
-            const convs = await convRes.json();
-            for (const c of convs) {
-                const msgRes = await fetch(`${API_BASE_URL}/chat/conversation/${c._id}/messages`, {
-                    headers: { 'Authorization': `Bearer ${currentToken}` }
-                });
-                if (msgRes.ok) {
-                    const msgs = await msgRes.json();
-                    msgs.forEach(m => {
-                        if (new Date(m.createdAt) > new Date(lastSeen) && m.sender._id !== currentUserId) count++;
-                    });
-                }
-            }
-        }
-    } catch (e) {
-        console.warn('notification error', e);
+    } catch (e) { console.warn("notification error", e); }
+    
+    const countElem = document.getElementById("teamMsgCount");
+    const listElem = document.getElementById("teamMessageList");
+    if (countElem) {
+        countElem.textContent = count;
+        countElem.style.display = count > 0 ? "flex" : "none";
     }
-    let btn = document.querySelector('.notif-btn');
-    if (!btn) {
-        btn = document.createElement('button');
-        btn.className = 'notif-btn';
-        btn.addEventListener('click', () => {
-            localStorage.setItem('lastSeen', new Date().toISOString());
-            window.location.href = '../team/team.html';
-        });
-        document.body.appendChild(btn);
+    if (listElem) {
+        if (notifs.length === 0) listElem.innerHTML = '<p class="no-messages">No invites</p>';
+        else listElem.innerHTML = notifs.map(n => `<div class="message-item unread"><span class="msg-avatar">🔔</span><div class="msg-content"><div class="msg-sender">${n.sender}</div><div class="msg-text">${n.text}</div></div></div>`).join("");
     }
-    btn.textContent = count || '';
 }
+
+
+setInterval(loadNotifications, 5000);

@@ -1,3 +1,12 @@
 node_modules/
 .env
 uploads/
+
+# MongoDB Data and Binaries
+mongodb_data/
+mongodb-win32-x86_64-windows-7.0.14/
+mongodb.zip
+
+# Large Media Files (Recommended)
+Demo video.mp4
+WhatsApp Image*.jpeg

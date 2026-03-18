@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css">
 </head>
+
 <body>
   <!-- Navigation -->
   <nav class="navbar">
@@ -43,13 +45,14 @@
       <h1 class="title">Dashboard</h1>
       <p class="subtitle" id="userGreeting">Welcome back!</p>
       <div class="quick-nav">
+        <button class="quick-nav-btn" onclick="navigateTo('daily-puzzle')">🧩 Daily Puzzle</button>
         <button class="quick-nav-btn" onclick="navigateTo('create')">📝 Create Hackathon</button>
         <button class="quick-nav-btn" onclick="navigateTo('view')">📋 View Hackathons</button>
         <button class="quick-nav-btn" onclick="navigateTo('team')">👥 Make Your Team</button>
         <button class="quick-nav-btn" onclick="navigateTo('world')">🌍 Explore World</button>
       </div>
     </div>
-
+    notif-btn
     <!-- Hackathons Grid Section -->
     <div class="section-wrapper">
       <div class="section-header">
@@ -61,7 +64,8 @@
       <div class="hackathons-grid" id="hackathons"></div>
 
       <!-- Empty State -->
-      <div id="emptyState" class="empty-state" style="display: none; text-align: center; padding: 3rem; margin-top: 2rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 15px;">
+      <div id="emptyState" class="empty-state"
+        style="display: none; text-align: center; padding: 3rem; margin-top: 2rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 15px;">
         <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
         <h3 style="margin-bottom: 0.5rem;">No hackathons available</h3>
         <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Create a new hackathon to get started</p>
@@ -74,25 +78,27 @@
 
     // Navigation function
     function navigateTo(page) {
-        if (page === 'create') {
-            window.location.href = '../hackathon/create.html';
-        } else if (page === 'view') {
-            window.location.href = '../hackathon/view.html';
-        } else if (page === 'world') {
-            window.location.href = '../world/world.html';
-        } else if (page === 'team') {
-            window.location.href = '../team/team.html';
-        } else if (page === 'profile') {
-            window.location.href = '../profile/profile.html';
-        }
+      if (page === 'daily-puzzle') {
+        window.location.href = '../daily-puzzle-brain-teaser/daily-puzzle-brain-teaser.html';
+      } else if (page === 'create') {
+        window.location.href = '../hackathon/create.html';
+      } else if (page === 'view') {
+        window.location.href = '../hackathon/view.html';
+      } else if (page === 'world') {
+        window.location.href = '../world/world.html';
+      } else if (page === 'team') {
+        window.location.href = '../team/team.html';
+      } else if (page === 'profile') {
+        window.location.href = '../profile/profile.html';
+      }
     }
 
     // Logout function
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '../auth/login.html';
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '../auth/login.html';
     });
 
     // Dashboard Message HUD functionality
@@ -103,24 +109,24 @@
     const dashList = document.getElementById('dashMessageList');
 
     dashIndicator.addEventListener('click', () => {
-        dashDropdown.classList.toggle('active');
+      dashDropdown.classList.toggle('active');
     });
     dashClose.addEventListener('click', () => dashDropdown.classList.remove('active'));
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.message-hud')) {
-            dashDropdown.classList.remove('active');
-        }
+      if (!e.target.closest('.message-hud')) {
+        dashDropdown.classList.remove('active');
+      }
     });
 
     function updateDashboardMessages() {
-        const messages = JSON.parse(localStorage.getItem('dashboardMessages') || '[]');
-        const unread = messages.filter(m => !m.read).length;
-        dashCount.textContent = unread;
-        dashCount.style.display = unread > 0 ? 'flex' : 'none';
-        if (messages.length === 0) {
-            dashList.innerHTML = '<p class="no-messages">No new notifications</p>';
-        } else {
-            dashList.innerHTML = messages.map(msg => `
+      const messages = JSON.parse(localStorage.getItem('dashboardMessages') || '[]');
+      const unread = messages.filter(m => !m.read).length;
+      dashCount.textContent = unread;
+      dashCount.style.display = unread > 0 ? 'flex' : 'none';
+      if (messages.length === 0) {
+        dashList.innerHTML = '<p class="no-messages">No new notifications</p>';
+      } else {
+        dashList.innerHTML = messages.map(msg => `
                 <div class="message-item ${msg.read ? 'read' : 'unread'}">
                     <span class="msg-avatar">🔔</span>
                     <div class="msg-content">
@@ -129,7 +135,7 @@
                     </div>
                 </div>
             `).join('');
-        }
+      }
     }
     updateDashboardMessages();
     setInterval(updateDashboardMessages, 5000);
@@ -137,10 +143,10 @@
 
     // User greeting
     function displayUserGreeting() {
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        if (user.name) {
-            document.getElementById('userGreeting').textContent = `Welcome back, ${user.name}!`;
-        }
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (user.name) {
+        document.getElementById('userGreeting').textContent = `Welcome back, ${user.name}!`;
+      }
     }
 
     // Particle animation
@@ -153,36 +159,36 @@
     let particles = [];
 
     for (let i = 0; i < 60; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 1,
-            dx: (Math.random() - 0.5) * 0.2,
-            dy: (Math.random() - 0.5) * 0.2
-        });
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1,
+        dx: (Math.random() - 0.5) * 0.2,
+        dy: (Math.random() - 0.5) * 0.2
+      });
     }
 
     function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "rgba(0,255,255,0.4)";
-        particles.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fill();
-            p.x += p.dx;
-            p.y += p.dy;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(0,255,255,0.4)";
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
 
-            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-        });
-        requestAnimationFrame(animateParticles);
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(animateParticles);
     }
 
     animateParticles();
 
     window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     });
 
     async function getHackathons() {
@@ -197,14 +203,14 @@
 
         const container = document.getElementById("hackathons");
         const emptyState = document.getElementById("emptyState");
-        
+
         if (!data || data.length === 0) {
           container.innerHTML = "";
           container.style.display = 'none';
           emptyState.style.display = 'block';
           return;
         }
-        
+
         container.style.display = 'grid';
         emptyState.style.display = 'none';
         container.innerHTML = "";
@@ -212,7 +218,7 @@
         data.forEach(h => {
           const div = document.createElement("div");
           div.className = "hackathon-card";
-          
+
           div.innerHTML = `
             <div class="card-header">
               ${h.logo ? `<img src="http://localhost:5000/${h.logo}" alt="${h.name}"/>` : '<div class="no-logo">📋</div>'}
@@ -236,72 +242,19 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-        displayUserGreeting();
-        const token = localStorage.getItem('token');
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const userId = user._id || user.id;
-        if (!token) {
-            window.location.href = '../auth/login.html';
-        }
-        getHackathons();
-        loadDashboardNotifications(userId);
+      displayUserGreeting();
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const userId = user._id || user.id;
+      if (!token) {
+        window.location.href = '../auth/login.html';
+      }
+      getHackathons();
     });
 
-    async function loadDashboardNotifications(userId) {
-        let count = 0;
-        const token = localStorage.getItem('token');
-        try {
-            // pending invites
-            const res = await fetch(`${API_BASE_URL}/teams/user/${userId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const teams = await res.json();
-                teams.forEach(t => {
-                    t.members.forEach(m => {
-                        if (m.userId._id === userId && m.status === 'invited') count++;
-                    });
-                });
-            }
-            // unread messages (since lastSeen)
-            const lastSeen = localStorage.getItem('lastSeen') || 0;
-            const convRes = await fetch(`${API_BASE_URL}/chat/conversations/user/${userId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (convRes.ok) {
-                const convs = await convRes.json();
-                for (const c of convs) {
-                    const msgRes = await fetch(`${API_BASE_URL}/chat/conversation/${c._id}/messages`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (msgRes.ok) {
-                        const msgs = await msgRes.json();
-                        msgs.forEach(m => {
-                            if (new Date(m.createdAt) > new Date(lastSeen) && m.sender._id !== userId) {
-                                count++;
-                            }
-                        });
-                    }
-                }
-            }
-        } catch (e) {
-            console.warn('notification error', e);
-        }
-        let btn = document.querySelector('.notif-btn');
-        if (!btn) {
-            btn = document.createElement('button');
-            btn.className = 'notif-btn';
-            btn.addEventListener('click', () => {
-                // reset lastSeen and go to team page
-                localStorage.setItem('lastSeen', new Date().toISOString());
-                window.location.href = '../team/team.html';
-            });
-            document.body.appendChild(btn);
-        }
-        btn.textContent = count || '';
-    }
 
   </script>
 
 </body>
+
 </html>

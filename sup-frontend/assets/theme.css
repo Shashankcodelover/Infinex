@@ -1,0 +1,589 @@
+/* ====================================
+   INFINIX GLOBAL THEME
+   Infinity-inspired color universe
+   ==================================== */
+
+/* ====================================
+   COLOR PALETTE - CSS Custom Properties
+   ==================================== */
+:root {
+  /* Core Infinity Colors */
+  --infinix-primary: #6C3AFF;
+  --infinix-secondary: #00D4FF;
+  --infinix-accent-1: #FF6B35;
+  --infinix-accent-2: #FFD700;
+  --infinix-accent-3: #00FF94;
+  --infinix-accent-4: #FF3CAC;
+  
+  /* Background Depth Layers */
+  --infinix-deep-bg: #0A0A1A;
+  --infinix-surface-1: #12122A;
+  --infinix-surface-2: #1E1E40;
+  
+  /* Text Colors */
+  --infinix-text-primary: #FFFFFF;
+  --infinix-text-secondary: #A0A0C0;
+  --infinix-text-muted: #5A5A7A;
+  
+  /* Border & Dividers */
+  --infinix-border: #2A2A4A;
+  --infinix-border-glow: rgba(108, 58, 255, 0.3);
+  
+  /* Status Colors */
+  --infinix-success: #00FF94;
+  --infinix-error: #FF6B35;
+  --infinix-warning: #FFD700;
+  --infinix-info: #00D4FF;
+  
+  /* Gradient Definitions */
+  --gradient-primary: linear-gradient(135deg, #6C3AFF 0%, #00D4FF 100%);
+  --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+  --gradient-cosmic: linear-gradient(135deg, #6C3AFF 0%, #FF3CAC 50%, #00D4FF 100%);
+  --gradient-success: linear-gradient(135deg, #00FF94 0%, #00D4FF 100%);
+  
+  /* Glow Effects */
+  --glow-primary: 0 0 30px rgba(108, 58, 255, 0.4);
+  --glow-secondary: 0 0 20px rgba(0, 212, 255, 0.3);
+  --glow-accent: 0 0 25px rgba(255, 107, 53, 0.3);
+  --glow-success: 0 0 20px rgba(0, 255, 148, 0.3);
+  
+  /* Shadows */
+  --shadow-card: 0 8px 32px rgba(10, 10, 26, 0.6);
+  --shadow-elevated: 0 12px 40px rgba(108, 58, 255, 0.15);
+  
+  /* Transitions */
+  --transition-fast: all 0.2s ease;
+  --transition-medium: all 0.3s ease;
+  --transition-slow: all 0.5s ease;
+}
+
+/* ====================================
+   GLOBAL BACKGROUND - Deep Void with Glow
+   ==================================== */
+body {
+  background: var(--infinix-deep-bg);
+  color: var(--infinix-text-primary);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Multi-color ambient glow effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(108, 58, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255, 61, 172, 0.04) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientGlow 15s ease-in-out infinite;
+}
+
+@keyframes ambientGlow {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+}
+
+/* ====================================
+   NAVIGATION BAR
+   ==================================== */
+.navbar {
+  background: rgba(18, 18, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--infinix-border);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 30px rgba(10, 10, 26, 0.5);
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient-cosmic);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(108, 58, 255, 0.5);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--infinix-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-medium);
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.nav-links a:hover {
+  color: var(--infinix-text-primary);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  transition: var(--transition-medium);
+  box-shadow: 0 0 10px var(--infinix-primary);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a.active {
+  color: var(--infinix-primary);
+}
+
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* ====================================
+   TYPOGRAPHY
+   ==================================== */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--infinix-text-primary);
+  text-shadow: 0 0 20px rgba(108, 58, 255, 0.3);
+  font-weight: 700;
+}
+
+.page-header h1 {
+  background: var(--gradient-cosmic);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-shadow: none;
+}
+
+.page-header p {
+  color: var(--infinix-text-secondary);
+  font-size: 1.1rem;
+}
+
+/* ====================================
+   BUTTONS - Gradient Primary Style
+   ==================================== */
+.btn {
+  padding: 0.875rem 1.75rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-medium);
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--glow-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: var(--transition-slow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(108, 58, 255, 0.5);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--infinix-secondary);
+  border: 2px solid var(--infinix-secondary);
+  transition: var(--transition-medium);
+}
+
+.btn-secondary:hover {
+  background: var(--infinix-secondary);
+  color: var(--infinix-deep-bg);
+  box-shadow: var(--glow-secondary);
+  transform: translateY(-2px);
+}
+
+.btn-accent {
+  background: var(--gradient-accent);
+  color: white;
+  box-shadow: var(--glow-accent);
+}
+
+.btn-accent:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 35px rgba(255, 107, 53, 0.4);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--infinix-accent-3), var(--infinix-secondary));
+  color: white;
+  box-shadow: var(--glow-success);
+}
+
+/* ====================================
+   CARDS - Surface 1 with Glow
+   ==================================== */
+.card, .hackathon-card, .puzzle-card, .stat-card {
+  background: var(--infinix-surface-1);
+  border: 1px solid var(--infinix-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: var(--transition-medium);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before, .hackathon-card::before, .puzzle-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: var(--transition-medium);
+}
+
+.card:hover, .hackathon-card:hover, .puzzle-card:hover {
+  border-color: var(--infinix-primary);
+  box-shadow: var(--shadow-elevated), var(--glow-primary);
+  transform: translateY(-8px);
+}
+
+.card:hover::before, .hackathon-card:hover::before, .puzzle-card:hover::before {
+  opacity: 1;
+}
+
+/* Card Header with gradient accent */
+.card-header {
+  background: linear-gradient(135deg, rgba(108, 58, 255, 0.1), rgba(0, 212, 255, 0.1));
+  border-bottom: 1px solid var(--infinix-border);
+}
+
+/* ====================================
+   FORM ELEMENTS
+   ==================================== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select,
+.form-control {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--infinix-surface-1);
+  border: 1px solid var(--infinix-border);
+  border-radius: 12px;
+  color: var(--infinix-text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: var(--transition-medium);
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus {
+  outline: none;
+  border-color: var(--infinix-primary);
+  box-shadow: 0 0 0 3px rgba(108, 58, 255, 0.2), var(--glow-primary);
+  background: var(--infinix-surface-2);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--infinix-text-muted);
+}
+
+/* ====================================
+   STREAK & XP ELEMENTS
+   ==================================== */
+.streak-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 107, 53, 0.1));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 50px;
+  color: var(--infinix-accent-2);
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
+}
+
+.xp-bar, .progress-bar {
+  background: var(--infinix-surface-2);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 8px;
+}
+
+.xp-bar .progress, .progress-bar .progress {
+  background: var(--gradient-accent);
+  height: 100%;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ====================================
+   BADGES & ACHIEVEMENTS
+   ==================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge-gold {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 107, 53, 0.15));
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  color: var(--infinix-accent-2);
+}
+
+.badge-cosmic {
+  background: linear-gradient(135deg, rgba(255, 61, 172, 0.2), rgba(108, 58, 255, 0.15));
+  border: 1px solid rgba(255, 61, 172, 0.4);
+  color: var(--infinix-accent-4);
+}
+
+.badge-mint {
+  background: rgba(0, 255, 148, 0.15);
+  border: 1px solid rgba(0, 255, 148, 0.4);
+  color: var(--infinix-accent-3);
+}
+
+/* ====================================
+   STATUS MESSAGES
+   ==================================== */
+.message, .result-message, .alert {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+}
+
+.message.success, .result-message.correct, .alert-success {
+  background: rgba(0, 255, 148, 0.1);
+  border: 1px solid rgba(0, 255, 148, 0.3);
+  color: var(--infinix-accent-3);
+  box-shadow: 0 0 20px rgba(0, 255, 148, 0.1);
+}
+
+.message.error, .result-message.wrong, .alert-error {
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  color: var(--infinix-accent-1);
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
+}
+
+.message.info, .alert-info {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: var(--infinix-secondary);
+}
+
+/* ====================================
+   LOADING & ANIMATIONS
+   ==================================== */
+.loading {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--infinix-surface-2);
+  border-radius: 50%;
+  border-top: 3px solid var(--infinix-primary);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Shimmer loading effect */
+.shimmer {
+  background: linear-gradient(90deg, var(--infinix-surface-1) 0%, var(--infinix-surface-2) 50%, var(--infinix-surface-1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ====================================
+   EMPTY STATES
+   ==================================== */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: var(--infinix-surface-1);
+  border: 1px solid var(--infinix-border);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.empty-state .empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+  text-shadow: 0 0 30px var(--infinix-primary);
+}
+
+.empty-state h2 {
+  color: var(--infinix-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: var(--infinix-text-secondary);
+}
+
+/* ====================================
+   PARTICLE CANVAS
+   ==================================== */
+#particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ====================================
+   CONTAINER & LAYOUT
+   ==================================== */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ====================================
+   GRID LAYOUTS
+   ==================================== */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* ====================================
+   RESPONSIVE BREAKPOINTS
+   ==================================== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nav-links {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+  
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+  
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}

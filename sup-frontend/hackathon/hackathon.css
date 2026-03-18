@@ -1,6 +1,8 @@
 /* ====================================
-   Global & Navbar
+   Global & Navbar - Infinix Theme
    ==================================== */
+@import url('../assets/theme.css');
+
 * {
     margin: 0;
     padding: 0;
@@ -9,31 +11,33 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at center, #0f2027, #0a0f1c);
-    color: white;
+    background: var(--infinix-deep-bg);
+    color: var(--infinix-text-primary);
     min-height: 100vh;
 }
 
 .navbar {
-    background: rgba(15, 15, 30, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(18, 18, 42, 0.95);
+    backdrop-filter: blur(20px);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    border-bottom: 1px solid var(--infinix-border);
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 4px 30px rgba(10, 10, 26, 0.5);
 }
 
 .navbar-brand {
     font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    font-weight: 800;
+    background: var(--gradient-cosmic);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: 0 0 30px rgba(108, 58, 255, 0.5);
 }
 
 .nav-links {
@@ -43,14 +47,32 @@ body {
 }
 
 .nav-links a {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--infinix-text-secondary);
     text-decoration: none;
     transition: 0.3s ease;
     font-weight: 500;
+    position: relative;
+    padding: 0.5rem 0;
 }
 
 .nav-links a:hover {
-    color: #00f5ff;
+    color: var(--infinix-primary);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: 0.3s ease;
+    box-shadow: 0 0 10px var(--infinix-primary);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
 }
 
 /* ====================================
@@ -86,15 +108,16 @@ body {
 .page-header h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
-    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    background: var(--gradient-cosmic);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 800;
+    text-shadow: 0 0 40px rgba(108, 58, 255, 0.3);
 }
 
 .page-header p {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--infinix-text-secondary);
     font-size: 1rem;
     margin-bottom: 1.5rem;
 }
@@ -135,25 +158,26 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    background: var(--gradient-primary);
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+    box-shadow: var(--glow-primary);
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(108, 58, 255, 0.5);
 }
 
 .btn-secondary {
-    background: rgba(0,255,255,0.1);
-    color: #00f5ff;
-    border: 1px solid rgba(0,255,255,0.3);
+    background: transparent;
+    color: var(--infinix-secondary);
+    border: 1px solid var(--infinix-secondary);
 }
 
 .btn-secondary:hover {
-    background: rgba(0,255,255,0.2);
+    background: rgba(0, 212, 255, 0.15);
     transform: translateY(-2px);
+    box-shadow: var(--glow-secondary);
 }
 
 .btn-block {
@@ -181,12 +205,25 @@ body {
 }
 
 .form-card {
-    background: rgba(255,255,255,0.08);
+    background: var(--infinix-surface-1);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(0,255,255,0.2);
+    border: 1px solid var(--infinix-border);
     border-radius: 20px;
     padding: 2.5rem;
-    box-shadow: 0 0 40px rgba(0,255,255,0.2);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    opacity: 0.5;
 }
 
 .form-group {
@@ -197,17 +234,17 @@ body {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--infinix-text-secondary);
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 1px solid rgba(0,255,255,0.3);
+    border: 1px solid var(--infinix-border);
     border-radius: 12px;
-    background: rgba(255,255,255,0.08);
-    color: white;
+    background: var(--infinix-surface-1);
+    color: var(--infinix-text-primary);
     font-size: 0.95rem;
     font-family: 'Poppins', sans-serif;
     transition: 0.3s ease;
@@ -215,15 +252,15 @@ body {
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: rgba(255,255,255,0.5);
+    color: var(--infinix-text-muted);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #00f5ff;
-    background: rgba(255,255,255,0.12);
-    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    border-color: var(--infinix-primary);
+    background: var(--infinix-surface-2);
+    box-shadow: 0 0 0 3px rgba(108, 58, 255, 0.2), var(--glow-primary);
 }
 
 .form-group textarea {
@@ -264,37 +301,43 @@ body {
 }
 
 .hackathon-card {
-    background: rgba(255,255,255,0.08);
+    background: var(--infinix-surface-1);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(0,255,255,0.2);
+    border: 1px solid var(--infinix-border);
     border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 0 30px rgba(0,255,255,0.15);
+    box-shadow: var(--shadow-card);
     transition: 0.4s ease;
     animation: cardFade 0.6s ease-out;
+    position: relative;
 }
 
-@keyframes cardFade {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.hackathon-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: 0.3s ease;
 }
 
 .hackathon-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 50px rgba(0,255,255,0.3);
-    border-color: rgba(0,255,255,0.5);
+    box-shadow: var(--shadow-elevated);
+    border-color: var(--infinix-primary);
+}
+
+.hackathon-card:hover::before {
+    opacity: 1;
 }
 
 .card-header {
     width: 100%;
     height: 180px;
-    background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(123,47,247,0.1));
+    background: linear-gradient(135deg, rgba(108, 58, 255, 0.15), rgba(0, 212, 255, 0.1));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -324,7 +367,7 @@ body {
 .card-body h3 {
     font-size: 1.3rem;
     margin-bottom: 0.75rem;
-    background: linear-gradient(45deg, #00f5ff, #7b2ff7);
+    background: var(--gradient-cosmic);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -333,8 +376,7 @@ body {
 .card-body p {
     margin: 0.5rem 0;
     font-size: 0.9rem;
-    opacity: 0.85;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--infinix-text-secondary);
 }
 
 .card-actions {
@@ -363,10 +405,10 @@ body {
 .search-input,
 .filter-select {
     padding: 0.75rem 1rem;
-    border: 1px solid rgba(0,255,255,0.3);
+    border: 1px solid var(--infinix-border);
     border-radius: 12px;
-    background: rgba(255,255,255,0.08);
-    color: white;
+    background: var(--infinix-surface-1);
+    color: var(--infinix-text-primary);
     font-size: 0.95rem;
     font-family: 'Poppins', sans-serif;
     transition: 0.3s ease;
@@ -379,13 +421,13 @@ body {
 .filter-select:focus,
 .search-input:focus {
     outline: none;
-    border-color: #00f5ff;
-    background: rgba(255,255,255,0.12);
-    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    border-color: var(--infinix-primary);
+    background: var(--infinix-surface-2);
+    box-shadow: 0 0 0 3px rgba(108, 58, 255, 0.2), var(--glow-primary);
 }
 
 .search-input::placeholder {
-    color: rgba(255,255,255,0.5);
+    color: var(--infinix-text-muted);
 }
 
 /* ====================================
@@ -394,8 +436,8 @@ body {
 .empty-state {
     text-align: center;
     padding: 3rem;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(0,255,255,0.2);
+    background: var(--infinix-surface-1);
+    border: 1px solid var(--infinix-border);
     border-radius: 20px;
     backdrop-filter: blur(20px);
 }
@@ -403,15 +445,17 @@ body {
 .empty-icon {
     font-size: 3.5rem;
     margin-bottom: 1rem;
+    text-shadow: 0 0 30px var(--infinix-primary);
 }
 
 .empty-state h2 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
+    color: var(--infinix-text-primary);
 }
 
 .empty-state p {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--infinix-text-secondary);
     margin-bottom: 1.5rem;
 }
 
@@ -427,17 +471,19 @@ body {
 }
 
 .message.success {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #10b981;
+    background: rgba(0, 255, 148, 0.1);
+    border: 1px solid rgba(0, 255, 148, 0.3);
+    color: var(--infinix-accent-3);
     display: block;
+    box-shadow: 0 0 20px rgba(0, 255, 148, 0.1);
 }
 
 .message.error {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #ef4444;
+    background: rgba(255, 107, 53, 0.1);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    color: var(--infinix-accent-1);
     display: block;
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
 }
 
 .loading {
@@ -446,7 +492,7 @@ body {
     align-items: center;
     padding: 3rem;
     font-size: 1.1rem;
-    color: rgba(0, 255, 255, 0.8);
+    color: var(--infinix-secondary);
 }
 
 .loading::after {
@@ -454,9 +500,9 @@ body {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 3px solid rgba(0, 255, 255, 0.3);
+    border: 3px solid var(--infinix-surface-2);
     border-radius: 50%;
-    border-top: 3px solid #00f5ff;
+    border-top: 3px solid var(--infinix-primary);
     animation: spin 1s linear infinite;
     margin-left: 0.5rem;
 }
