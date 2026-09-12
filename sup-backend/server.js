@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -43,6 +43,26 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/daily-puzzle', dailyPuzzleRoutes);
 
+// Mount 21 Innovation Hub AI & Platform modules
+const extraModules = [
+  'aiDoubtSolver', 'aiMockInterviews', 'aiPersonalTutor', 'aiResumeBuilder',
+  'alumniNetwork', 'collegeB2BLicensing', 'collegeBattleLeagues', 'companyChallengeMarketplace',
+  'liveCodingRooms', 'mobilePwaNotifications', 'notificationSystem', 'offerSalaryTracker',
+  'offlineModeSync', 'parentFacultyDashboard', 'peerTutoringMarketplace', 'placementSkillGapAnalyzer',
+  'premiumSubscription', 'projectShowcaseFeed', 'referralNetwork', 'regionalLanguageSupport',
+  'studentBountySystem'
+];
+
+extraModules.forEach(mod => {
+  try {
+    const route = require(`./${mod}/routes/${mod}Routes`);
+    app.use(`/api/${mod}`, route);
+  } catch (err) {
+    console.error(`Failed to mount /api/${mod}:`, err.message);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Mounted 28 total API modules (7 core + 21 AI modules) ✅`);
 });

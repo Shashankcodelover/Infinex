@@ -2,11 +2,11 @@ require('dotenv').config();
 const connectDB = require('./config/db');
 const bcrypt = require('bcryptjs');
 
-const User = require('./models/userModel');
-const Hackathon = require('./models/hackathonModel');
-const Team = require('./models/teamModel');
-const Conversation = require('./models/conversationModel');
-const Message = require('./models/messageModel');
+const User = require('./user/models/userModel');
+const Hackathon = require('./hackathon/models/hackathonModel');
+const Team = require('./team/models/teamModel');
+const Conversation = require('./chat/models/conversationModel');
+const Message = require('./chat/models/messageModel');
 
 const seed = async () => {
   try {

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Collaborative Coding Rooms - Infinex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="live-coding-rooms.css">
+</head>
+<body>
+    <!-- Background Particles -->
+    <canvas id="particles"></canvas>
+
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="brand-logo">INFIN<span>EX</span></span>
+            <span class="brand-sub">Live Collaborative Coding Rooms</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../dashboard/dashboard.html">🏠 Dashboard</a></li>
+            <li><a href="../world/world.html">🌍 3D World</a></li>
+            <li><a href="../hackathon/view.html">📋 Hackathons</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="module-container">
+        <header class="module-header">
+            <div class="icon-bubble">💻</div>
+            <h1>Live Collaborative Coding Rooms</h1>
+            <p class="module-subtitle">Zero-latency shared code editor with built-in WASM compiler and WebRTC peer voice audio.</p>
+        </header>
+
+        <div class="workspace-grid">
+            <!-- Action Panel -->
+            <section class="glass-card form-panel">
+                <div class="card-title">
+                    <h2>⚡ Configure & Launch</h2>
+                    <span class="status-badge live">AI Ready</span>
+                </div>
+                <form id="actionForm">
+                    
+        <div class="form-group">
+            <label for="roomName">Session / Room Name</label>
+            <input type="text" id="roomName" placeholder="Type here..." required />
+        </div>
+  
+        <div class="form-group">
+            <label for="language">Primary Language (C++ / Python / Go / Rust)</label>
+            <input type="text" id="language" placeholder="Type here..." required />
+        </div>
+  
+        <div class="form-group">
+            <label for="maxParticipants">Max Peers</label>
+            <input type="number" id="maxParticipants" placeholder="Type here..." required />
+        </div>
+  
+                    <button type="submit" id="submitBtn" class="btn-primary">
+                        <span>Process with Infinex AI</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Results & Intelligence Panel -->
+            <section class="glass-card intelligence-panel">
+                <div class="card-title">
+                    <h2>📊 Intelligence Stream</h2>
+                    <button id="refreshBtn" class="btn-refresh">🔄 Refresh</button>
+                </div>
+                <div id="resultsContainer" class="results-box">
+                    <div class="initial-placeholder">
+                        <div class="radar-ping"></div>
+                        <p>Awaiting your input. Execute an action to generate cognitive telemetry.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="live-coding-rooms.js"></script>
+</body>
+</html>

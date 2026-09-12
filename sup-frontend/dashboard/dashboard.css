@@ -652,3 +652,54 @@ input::placeholder {
         font-size: 0.85rem;
     }
 }
+
+/* AI Innovation Hub Module Cards */
+.module-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(18, 18, 42, 0.7);
+    border: 1px solid rgba(108, 58, 255, 0.3);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.module-card:hover {
+    transform: translateY(-4px);
+    border-color: #00D4FF;
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.25);
+    background: rgba(24, 24, 56, 0.85);
+}
+
+.module-card .card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+}
+
+.module-card .card-meta h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 0.35rem;
+}
+
+.module-card .card-meta p {
+    font-size: 0.85rem;
+    color: #A0A0C0;
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+}
+
+.module-card .card-action {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #00D4FF;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}

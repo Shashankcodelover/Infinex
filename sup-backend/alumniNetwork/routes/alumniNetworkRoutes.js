@@ -1,0 +1,8 @@
+const express = require('express');
+const router = express.Router();
+const controller = require('../controllers/alumniNetworkController');
+
+router.get('/', controller.getStatus);
+router.post('/action', controller.handleAction);
+
+module.exports = router;
