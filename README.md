@@ -1,122 +1,101 @@
-﻿# Infinex — Autonomous AI Learning & Campus Career Acceleration Platform
+﻿# 🚀 Infinex: Autonomous AI Learning & Campus Career Acceleration Platform
 
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B%20%7C%2025-green?logo=node.js)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-5.2-black?logo=express)](https://expressjs.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas%20%2B%20Mongoose-47A248?logo=mongodb)](https://www.mongodb.com/)
 [![Three.js](https://img.shields.io/badge/Three.js-3D%20WebGL-049EF4?logo=three.js)](https://threejs.org/)
-[![Status](https://img.shields.io/badge/Calibrated-Production%20Verified-blueviolet)](#)
+[![Topology Mesh](https://img.shields.io/badge/Collegiate%20Topology-Skill%20Corridor%20Mesh-purple.svg)](#collegiate-relational-topology-mesh)
+[![Test Suite](https://img.shields.io/badge/Test%20Suite-11%2F11%20Passing-brightgreen.svg)](#automated-test-suite)
 
-> An all-in-one educational, career-readiness, and hackathon metaverse platform engineered for collegiate talent. Unifies real-time collaborative coding, 3D virtual campus worlds, Socratic AI tutors, inter-collegiate battle leagues, and placement benchmarks.
-
----
-
-## 1. Architectural Overview & System Design
-
-```
-[ Student / Campus Browser ]
-        │
-        ├── Splash 3D Gateway (Three.js + Particle Engine)
-        ├── Glassmorphic Auth Portal (JWT Token Vault)
-        ├── Interactive Central Dashboard
-        │     ├── Live Hackathons Grid (Registrations & Hosting Links)
-        │     ├── Team Formation & Group Messaging Hub
-        │     └── AI Career & Intelligence Matrix (21 Modules)
-        ├── 3D Metaverse World (WebGL Orbit Engine & Spatial Audio)
-        └── Daily DSA Puzzle & Cognitive Streak Arena
-        │
-        ▼ (HTTP REST / JSON Web Tokens)
-[ Infinex Core Backend (Express 5.2) ]
-        ├── Auth Service (Bcrypt + JWT Authentication)
-        ├── Hackathon Registry (CRUD & Media Uploads)
-        ├── Team Matching & Group Chat Gateway
-        ├── Daily Puzzle Streak Evaluator
-        ├── 21 Autonomous AI & Career Acceleration Routers
-        └── Resilient DNS-Optimized Storage Connector
-        │
-        ▼
-[ Database Tier: MongoDB Atlas Cluster ]
-        ├── Users & Verified Profiles
-        ├── Hackathons & Squad Rosters
-        ├── Conversations & Instant Messages
-        ├── Puzzles & Continuous Streaks
-        └── AI Module Telemetry & Audit Logs
-```
+> **Enterprise Collegiate Operating System**: An all-in-one educational, career-readiness, and hackathon metaverse platform engineered for collegiate talent. Unifies real-time collaborative coding, 3D virtual campus worlds, collegiate relational learning corridors, high-throughput batch ingestion studio, Socratic AI tutors, and placement benchmarks.
 
 ---
 
-## 2. Core Modules & Capabilities
+## 📸 Enterprise Platform Showcase
 
-### A. Central Dashboard & Hackathon Engine
-- **Live Event Feed**: Discover and register for active hackathons with synchronized participant counts and deadline tracking.
-- **Squad Builder & Matching**: Form teams, assign domain specializations (AI, Web, Mobile), and initialize dedicated team chat rooms.
-- **Real-time Notifications**: Embedded Message HUD with instant unread badges.
+![Infinex Platform Hero Showcase](platform_hero_showcase.png)
 
-### B. 3D Metaverse World (`world/world.html`)
-- Interactive 3D campus navigation built with **Three.js WebGL** and **OrbitControls**.
-- Dynamic architectural house builder with modular stages (roof, second floor, exterior rendering).
-- Spatial controls: 360-degree rotation, variable zoom clamp ($8 \le d \le 84$), and keyboard shortcuts.
+### Desktop Command Viewports (1920×1080 @ 2x)
 
-### C. Daily DSA Puzzle Arena (`daily-puzzle-brain-teaser/`)
-- Automated daily algorithmic challenges (AVL trees, binary search, DBMS, OS scheduling).
-- Streak tracker with persistent progress monitoring and instantaneous answer evaluation.
-
-### D. The 21 AI & Career Acceleration Modules
-1. **AI Doubt Solver**: Step-by-step code and concept resolution.
-2. **AI Mock Interviews**: Adaptive Socratic interview simulations with rubric calibration.
-3. **AI Personal Tutor**: Retention-curve-adjusted curriculum roadmaps.
-4. **AI Resume Builder**: ATS keyword density optimizer and LaTeX formatting.
-5. **Live Coding Rooms**: Low-latency collaborative workspace with WASM compiler.
-6. **College Battle Leagues**: Inter-collegiate ELO leaderboards and championship brackets.
-7. **Skill Gap Analyzer**: Reverse-engineered corporate job description matchers.
-8. **Student Bounty System**: Open-source issue bounties with micro-rewards.
-9. **Offer & Salary Tracker**: Verified campus placement compensation analytics.
-10. **Alumni Mentorship**: Direct alumni referrals and AMA scheduling.
-11. **Project Showcase**: WebGL project previews with community upvoting.
-12. **Multilingual Audio Engine**: Core computer science explained in Kannada, Hindi, Tamil, and Telugu.
-13. *And 9 additional platform modules including PWA push alerts, offline sync, and B2B licensing.*
+| Viewport | Description | Screenshot |
+| :--- | :--- | :--- |
+| **01. Executive Dashboard & Hackathons** | Central collegiate portal with live hackathons grid, team formation hub, and 21 autonomous AI module launchers | ![Executive Dashboard & Hackathons](screenshots/desktop/01_desktop_executive_dashboard_hackathons.png) |
+| **02. Collegiate Topology Mesh** | Relational learning corridors mapping collegiate hackathon squads with skill domains, coherence ratings, and 1-click sever controls | ![Collegiate Relational Topology Mesh](screenshots/desktop/02_desktop_collegiate_topology_mesh.png) |
+| **03. Batch Ingestion Studio** | High-throughput batch ingestion console supporting RFC 4180 CSV & structured JSON formats with universal cascading purge controls | ![Batch Ingestion Studio](screenshots/desktop/03_desktop_enterprise_ingestion_studio.png) |
+| **04. 3D Metaverse Campus World** | Interactive 3D Three.js WebGL virtual campus navigation with architectural modular building and spatial exploration | ![3D Metaverse Campus World](screenshots/desktop/04_desktop_3d_metaverse_campus_world.png) |
+| **05. Daily DSA Cognitive Arena** | Algorithmic daily puzzle arena with interactive code evaluation, cognitive streak tracking, and difficulty tiers | ![Daily DSA Cognitive Arena](screenshots/desktop/05_desktop_daily_dsa_cognitive_arena.png) |
+| **06. AI Mock Interview Studio** | Socratic technical and system design mock interview studio with real-time competency evaluations and rubric feedback | ![AI Mock Interview Studio](screenshots/desktop/06_desktop_ai_mock_interview_studio.png) |
 
 ---
 
-## 3. Technology Stack
+## ⚡ Core Enterprise Capabilities
 
-- **Backend**: Node.js, Express 5.2, Mongoose 9.2, Bcryptjs, JsonWebToken, Multer, Google/Cloudflare Resilient DNS
-- **Frontend**: HTML5, Modern CSS3 with Custom Infinity Design Tokens (`--infinix-primary`, `--gradient-cosmic`), Vanilla ES6+ JavaScript
-- **3D Graphics**: Three.js (r152), WebGL, OrbitControls, PCF Soft Shadow Mapping
-- **Database**: MongoDB Atlas Cluster (`infinexDB`)
+### 1. Collegiate Relational Topology Mesh
+- Autonomous netlist mapping collegiate hackathon squads (`SQUAD-01-QUANTUM`, `SQUAD-02-SENTINEL`, `SQUAD-03-CYBER`, `SQUAD-05-CLOUD`) with specialized engineering domains (*Post-Quantum Cryptography*, *Multi-Agent LLM Tool Calling*, *SCADA Protocol Sandboxing*, *Raft Consensus Log Replication*).
+- Real-time telemetry monitoring skill coherence %, mentorship SLA targets (mins), velocity XP generation, and campus coverage percentage.
+- **1-Click Sever Controls**: Instantaneous corridor severance and dynamic mentorship re-routing for active student cohorts.
+
+### 2. Enterprise Batch Ingestion Studio
+- High-throughput batch ingestion supporting both standard **RFC 4180 CSV** (with quoted multi-word strings and commas) and **Structured JSON**.
+- Dual entity support: Collegiate Hackathon Squads and Skill/Mentorship Corridors.
+- Interactive live buffer editor pre-loaded with production templates, line counters, and real-time schema validation feedback.
+
+### 3. Universal Cascading Deletion
+- Referential integrity enforcement: deleting a collegiate squad automatically cascades and eliminates all linked learning corridors.
+- 1-click universal purge safeguard for reset and institutional re-allocation.
+
+### 4. 21 Innovation Hub AI & Platform Routers
+- **AI Doubt Solver**: Instant step-by-step code and algorithmic breakdown.
+- **AI Mock Interviews**: Socratic system design and behavioral assessment.
+- **AI Resume Builder & Placement Gap Analyzer**: AST resume scoring and company-tailored curriculum roadmaps.
+- **College Battle Leagues & Peer Tutoring**: Inter-collegiate hack leagues and collaborative peer bounties.
 
 ---
 
-## 4. Quick Start & Local Execution
+## 🧪 Automated Test Suite
 
-### Prerequisites
-- Node.js 18+ (tested on Node 25)
-- npm 9+
+Infinex includes a comprehensive native Node.js automated test suite validating all enterprise topology services, cascading lifecycles, and batch schemas:
 
-### Backend Setup
 ```bash
+# Execute automated test suite
 cd sup-backend
+node --test tests/enterpriseMesh.test.js
+```
+
+### Verified Test Matrix (11/11 Passing):
+- [x] Collegiate squad seeding & schema verification
+- [x] Live telemetry calculation (Coherence, Coverage, Total Velocity XP)
+- [x] Dynamic corridor provisioning & squad binding
+- [x] 1-Click corridor severance & telemetry recalculation
+- [x] Single corridor deletion & continuity check
+- [x] Squad deletion with cascading corridor purge
+- [x] High-throughput RFC 4180 CSV batch ingestion
+- [x] Structured JSON batch ingestion
+- [x] Malformed payload rejection & error reporting
+- [x] Universal corridor purge
+- [x] Universal squad & cascading corridor purge
+
+---
+
+## 🚀 Quickstart
+
+```bash
+# Clone repository
+git clone https://github.com/Shashankcodelover/Infinex.git
+cd Infinex/sup-backend
+
+# Install dependencies
 npm install
 
-# Seed the database with sample hackathons, users, and today's puzzle
-node seed.js
+# Run automated tests
+node --test tests/enterpriseMesh.test.js
 
-# Launch the backend server (Port 5000)
+# Launch backend server
 node server.js
+# Access dashboard at http://localhost:5000/dashboard/dashboard.html
 ```
-
-### Frontend Setup
-```bash
-cd ..
-npx serve -l 5001 sup-frontend
-```
-Open **`http://localhost:5001/splash/splash.html`** or **`http://localhost:5001/dashboard/dashboard.html`** in your browser.
-
-### Test Credentials
-- **Alice Johnson**: `alice@example.com` / `password123`
-- **Bob Smith**: `bob@example.com` / `password123`
-- **Carol Lee**: `carol@example.com` / `password123`
 
 ---
 
-## 5. License
-MIT License. Built with architectural rigor for the Infinex Ecosystem.
+## 📜 License
+MIT License. Open-source educational and career acceleration platform.

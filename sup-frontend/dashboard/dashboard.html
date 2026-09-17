@@ -7,6 +7,173 @@
   <title>Dashboard - Infinex</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css">
+  <style>
+    /* Enterprise Topology & Batch Ingestion Styles */
+    .mesh-telemetry-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .mesh-kpi {
+      background: rgba(18, 18, 42, 0.75);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: left;
+    }
+    .mesh-kpi span {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: block;
+    }
+    .mesh-kpi h4 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 0.3rem;
+      color: #00D4FF;
+      font-family: 'Poppins', sans-serif;
+    }
+    .mesh-table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(10, 10, 26, 0.7);
+      margin-bottom: 1.5rem;
+    }
+    .mesh-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    .mesh-table th {
+      background: rgba(18, 18, 42, 0.95);
+      padding: 0.85rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    .mesh-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .mesh-table tr:hover td {
+      background: rgba(0, 212, 255, 0.04);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .status-badge.active {
+      background: rgba(0, 255, 148, 0.15);
+      color: #00FF94;
+      border: 1px solid #00FF94;
+    }
+    .status-badge.severed {
+      background: rgba(255, 51, 102, 0.15);
+      color: #FF3366;
+      border: 1px solid #FF3366;
+    }
+    .btn-table {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      margin-right: 0.3rem;
+      transition: all 0.2s;
+    }
+    .btn-sever {
+      background: rgba(255, 51, 102, 0.15);
+      color: #FF3366;
+      border-color: rgba(255, 51, 102, 0.4);
+    }
+    .btn-sever:hover {
+      background: #FF3366;
+      color: white;
+    }
+    .btn-restore {
+      background: rgba(0, 255, 148, 0.15);
+      color: #00FF94;
+      border-color: rgba(0, 255, 148, 0.4);
+    }
+    .btn-restore:hover {
+      background: #00FF94;
+      color: #060913;
+    }
+    .btn-del {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-del:hover {
+      background: rgba(255, 51, 102, 0.3);
+      color: #FF3366;
+    }
+    .btn-universal-danger {
+      background: linear-gradient(135deg, #FF3366, #b3002d);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .btn-universal-danger:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .btn-primary-action {
+      background: linear-gradient(135deg, #00D4FF, #6C3AFF);
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .btn-primary-action:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .batch-editor-area {
+      width: 100%;
+      height: 180px;
+      background: rgba(10, 10, 26, 0.95);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 8px;
+      color: #00FF94;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      padding: 1rem;
+      resize: vertical;
+      outline: none;
+      margin-bottom: 1rem;
+    }
+    .result-display {
+      background: rgba(10, 10, 26, 0.95);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #00FF94;
+      white-space: pre-wrap;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+  </style>
 </head>
 
 <body>
@@ -50,6 +217,8 @@
         <button class="quick-nav-btn" onclick="navigateTo('view')">📋 View Hackathons</button>
         <button class="quick-nav-btn" onclick="navigateTo('team')">👥 Make Your Team</button>
         <button class="quick-nav-btn" onclick="navigateTo('world')">🌍 Explore World</button>
+        <button class="quick-nav-btn" id="btn-quick-mesh" onclick="document.getElementById('meshSection').scrollIntoView({behavior:'smooth'})">🌐 Collegiate Topology</button>
+        <button class="quick-nav-btn" id="btn-quick-ingest" onclick="document.getElementById('ingestionSection').scrollIntoView({behavior:'smooth'})">📥 Batch Ingestion</button>
       </div>
     </div>
     <!-- Hackathons Grid Section -->
@@ -68,6 +237,156 @@
         <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
         <h3 style="margin-bottom: 0.5rem;">No hackathons available</h3>
         <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Create a new hackathon to get started</p>
+      </div>
+    </div>
+
+    <!-- Collegiate Learning Relational Topology Mesh Section -->
+    <div class="section-wrapper" id="meshSection" style="margin-top: 3.5rem;">
+      <div class="section-header">
+        <div>
+          <h2>🌐 Collegiate Relational Topology & Skill Corridor Mesh</h2>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: 0.25rem;">Autonomous netlist mapping collegiate hackathon squads with AI skill domains, live coherence metrics, and 1-click sever controls.</p>
+        </div>
+        <div style="display: flex; gap: 0.6rem;">
+          <button onclick="openProvisionModal()" class="btn-primary-action" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; font-weight: 600; cursor: pointer;">+ Provision Corridor</button>
+          <button onclick="refreshCampusTopology()" class="btn-secondary">🔄 Refresh Mesh</button>
+        </div>
+      </div>
+
+      <!-- Telemetry KPI Strip -->
+      <div class="mesh-telemetry-strip" id="meshTelemetryStrip">
+        <div class="mesh-kpi">
+          <span>Active Learning Corridors</span>
+          <h4 id="meshActiveCorridors">--</h4>
+        </div>
+        <div class="mesh-kpi">
+          <span>Avg Skill Coherence</span>
+          <h4 id="meshAvgCoherence" style="color: #00FF94;">--</h4>
+        </div>
+        <div class="mesh-kpi">
+          <span>Collegiate Squads Bound</span>
+          <h4 id="meshCampusCoverage" style="color: #00D4FF;">--</h4>
+        </div>
+        <div class="mesh-kpi">
+          <span>Total Velocity XP</span>
+          <h4 id="meshTotalVelocity" style="color: #A855F7;">--</h4>
+        </div>
+      </div>
+
+      <!-- Skill Corridors Table -->
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem; color: #00D4FF;">⚡ Active Skill & Mentorship Corridors</h3>
+      <div class="mesh-table-wrapper">
+        <table class="mesh-table" id="corridorsTable">
+          <thead>
+            <tr>
+              <th>Corridor ID</th>
+              <th>Source Squad</th>
+              <th>Target Skill Domain</th>
+              <th>Protocol</th>
+              <th>Coherence</th>
+              <th>Mentorship SLA</th>
+              <th>Velocity (XP)</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="corridorsTbody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Collegiate Squads Roster Table -->
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem; color: #A855F7; margin-top: 2rem;">🎓 Registered Collegiate Hackathon Squads (Governed Units)</h3>
+      <div class="mesh-table-wrapper">
+        <table class="mesh-table" id="squadsTable">
+          <thead>
+            <tr>
+              <th>Squad ID</th>
+              <th>Squad Name</th>
+              <th>Academic Institution</th>
+              <th>Specialization Track</th>
+              <th>Members</th>
+              <th>Readiness Index</th>
+              <th>Cascading Actions</th>
+            </tr>
+          </thead>
+          <tbody id="squadsTbody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Enterprise Batch Ingestion Studio Section -->
+    <div class="section-wrapper" id="ingestionSection" style="margin-top: 3.5rem;">
+      <div class="section-header">
+        <div>
+          <h2>📥 Enterprise Batch Ingestion & Universal Purge Studio</h2>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: 0.25rem;">High-throughput batch ingestion supporting RFC 4180 CSV & structured JSON schemas with universal cascading deletion controls.</p>
+        </div>
+        <button onclick="triggerUniversalPurge()" class="btn-universal-danger" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">⚠️ Universal Purge</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; margin-top: 1.5rem;">
+        <div style="background: rgba(18, 18, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1.5rem;">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.4rem;">Target Entity:</label>
+            <select id="ingestTargetEntity" onchange="updateIngestTemplate()" style="width: 100%; padding: 0.7rem; background: rgba(10,10,26,0.9); border: 1px solid rgba(0,212,255,0.3); border-radius: 8px; color: white; outline: none;">
+              <option value="corridors">Skill & Mentorship Corridors</option>
+              <option value="squads">Collegiate Hackathon Squads</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 1.2rem;">
+            <label style="display: block; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.4rem;">Ingestion Format:</label>
+            <select id="ingestFormat" onchange="updateIngestTemplate()" style="width: 100%; padding: 0.7rem; background: rgba(10,10,26,0.9); border: 1px solid rgba(0,212,255,0.3); border-radius: 8px; color: white; outline: none;">
+              <option value="csv">RFC 4180 CSV (Comma-Separated)</option>
+              <option value="json">Structured JSON Array</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 0.8rem;">
+            <button onclick="updateIngestTemplate()" class="btn-secondary" style="padding: 0.6rem 1rem;">📋 Load Template</button>
+            <button onclick="executeBatchIngest()" class="btn-primary-action" style="padding: 0.6rem 1.4rem; font-weight: 700; border-radius: 8px; cursor: pointer;">🚀 Ingest Batch</button>
+          </div>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.4rem;">Live Payload Buffer Editor:</label>
+          <textarea id="ingestBuffer" class="batch-editor-area" placeholder="// Paste CSV or JSON batch payload here..."></textarea>
+          <div id="ingestResultLog" class="result-display">// Batch ingestion telemetry and schema verification status will appear here...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Provision Corridor Modal -->
+    <div id="provisionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 2000; justify-content: center; align-items: center;">
+      <div style="background: rgba(18, 18, 42, 0.95); border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 16px; padding: 2rem; width: 90%; max-width: 520px; box-shadow: 0 12px 50px rgba(0,0,0,0.85);">
+        <h3 style="color: #00D4FF; margin-bottom: 1rem; font-size: 1.3rem;">⚡ Provision New Collegiate Learning Corridor</h3>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.3rem;">Source Collegiate Squad:</label>
+          <select id="provSourceSquad" style="width: 100%; padding: 0.7rem; background: rgba(10,10,26,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;"></select>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.3rem;">Target Skill Domain:</label>
+          <input type="text" id="provTargetDomain" value="Distributed Systems & Consensus" style="width: 100%; padding: 0.7rem; background: rgba(10,10,26,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;" />
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.3rem;">Mentorship Protocol:</label>
+          <select id="provProtocol" style="width: 100%; padding: 0.7rem; background: rgba(10,10,26,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+            <option value="Socratic Peer Coaching">Socratic Peer Coaching</option>
+            <option value="Adaptive Skill Benchmarking">Adaptive Skill Benchmarking</option>
+            <option value="Industry Senior Mentorship">Industry Senior Mentorship</option>
+            <option value="Metaverse Virtual Hack">Metaverse Virtual Hack</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.3rem;">Target Skill Coherence (80 - 100%):</label>
+          <input type="number" step="0.5" id="provCoherence" value="95.0" style="width: 100%; padding: 0.7rem; background: rgba(10,10,26,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;" />
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.8rem;">
+          <button onclick="closeProvisionModal()" class="btn-secondary">Cancel</button>
+          <button onclick="submitProvisionCorridor()" class="btn-primary-action" style="padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer;">Provision Corridor</button>
+        </div>
       </div>
     </div>
 
@@ -349,16 +668,299 @@
       }
     }
 
+    // =========================================================================
+    // Collegiate Relational Topology & Batch Ingestion JavaScript Engine
+    // =========================================================================
+    let currentCorridors = [];
+    let currentSquads = [];
+
+    async function refreshCampusTopology() {
+      try {
+        const [telRes, corrRes, squadRes] = await Promise.all([
+          fetch('/api/topology/telemetry'),
+          fetch('/api/topology/corridors'),
+          fetch('/api/topology/squads')
+        ]);
+        const telemetry = await telRes.json();
+        currentCorridors = await corrRes.json();
+        currentSquads = await squadRes.json();
+
+        // Update KPI Strip
+        document.getElementById('meshActiveCorridors').textContent = `${telemetry.activeCorridors} / ${telemetry.totalCorridors}`;
+        document.getElementById('meshAvgCoherence').textContent = `${telemetry.avgCoherence}%`;
+        document.getElementById('meshCampusCoverage').textContent = `${telemetry.boundSquadsCount} / ${telemetry.totalSquads} (${telemetry.campusCoveragePercent}%)`;
+        document.getElementById('meshTotalVelocity').textContent = `${telemetry.totalVelocity} XP`;
+
+        // Render Corridors Table
+        const cTbody = document.getElementById('corridorsTbody');
+        cTbody.innerHTML = '';
+        if (currentCorridors.length === 0) {
+          cTbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color: rgba(255,255,255,0.5); padding: 1.5rem;">No learning corridors active. Provision one or ingest a batch.</td></tr>';
+        } else {
+          currentCorridors.forEach(c => {
+            const tr = document.createElement('tr');
+            const isSevered = c.status === 'severed';
+            tr.innerHTML = `
+              <td style="color: #00D4FF; font-weight: 700;">${c.id}</td>
+              <td style="font-weight: 600;">${c.sourceSquadId}</td>
+              <td>${c.targetDomain}</td>
+              <td><span style="background: rgba(168,85,247,0.15); color: #C084FC; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem;">${c.protocol}</span></td>
+              <td style="color: ${c.coherencePercent >= 92 ? '#00FF94' : '#00D4FF'}; font-weight: 700;">${c.coherencePercent}%</td>
+              <td>${c.mentorshipSlaMins} mins</td>
+              <td><span style="color: #A855F7; font-weight: 700;">+${c.velocityScore}</span></td>
+              <td><span class="status-badge ${isSevered ? 'severed' : 'active'}">${isSevered ? 'SEVERED' : 'ACTIVE'}</span></td>
+              <td>
+                ${isSevered
+                  ? `<button class="btn-table btn-restore" onclick="restoreCorridor('${c.id}')">Restore</button>`
+                  : `<button class="btn-table btn-sever" onclick="severCorridor('${c.id}')">Sever</button>`
+                }
+                <button class="btn-table btn-del" onclick="deleteCorridor('${c.id}')">Delete</button>
+              </td>
+            `;
+            cTbody.appendChild(tr);
+          });
+        }
+
+        // Render Squads Table
+        const sTbody = document.getElementById('squadsTbody');
+        sTbody.innerHTML = '';
+        if (currentSquads.length === 0) {
+          sTbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: rgba(255,255,255,0.5); padding: 1.5rem;">No collegiate squads registered.</td></tr>';
+        } else {
+          currentSquads.forEach(s => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td style="color: #A855F7; font-weight: 700;">${s.id}</td>
+              <td style="font-weight: 600;">${s.name}</td>
+              <td style="color: rgba(255,255,255,0.8);">${s.institution}</td>
+              <td><span style="background: rgba(0,212,255,0.12); color: #00D4FF; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem;">${s.track}</span></td>
+              <td>${s.memberCount} Developers</td>
+              <td style="color: #00FF94; font-weight: 700;">${s.readinessIndex}%</td>
+              <td>
+                <button class="btn-table btn-del" onclick="deleteSquad('${s.id}')">Delete (Cascade)</button>
+              </td>
+            `;
+            sTbody.appendChild(tr);
+          });
+        }
+
+        // Populate Modal Select
+        const pSource = document.getElementById('provSourceSquad');
+        if (pSource) {
+          pSource.innerHTML = currentSquads.map(s => `<option value="${s.id}">${s.id} (${s.name})</option>`).join('');
+        }
+      } catch (e) {
+        console.error('Topology refresh error:', e);
+      }
+    }
+
+    async function severCorridor(id) {
+      try {
+        const res = await fetch(`/api/topology/corridors/${encodeURIComponent(id)}/sever`, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          refreshCampusTopology();
+        }
+      } catch (e) { alert(e.message); }
+    }
+
+    async function restoreCorridor(id) {
+      try {
+        const res = await fetch(`/api/topology/corridors/${encodeURIComponent(id)}/restore`, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          refreshCampusTopology();
+        }
+      } catch (e) { alert(e.message); }
+    }
+
+    async function deleteCorridor(id) {
+      if (!confirm(`Delete learning corridor ${id}?`)) return;
+      try {
+        const res = await fetch(`/api/topology/corridors/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          refreshCampusTopology();
+        }
+      } catch (e) { alert(e.message); }
+    }
+
+    async function deleteSquad(id) {
+      if (!confirm(`Cascading Deletion Warning:\nDeleting squad ${id} will permanently purge all connected mentorship corridors across the mesh.\n\nProceed?`)) return;
+      try {
+        const res = await fetch(`/api/topology/squads/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          refreshCampusTopology();
+        }
+      } catch (e) { alert(e.message); }
+    }
+
+    function openProvisionModal() {
+      document.getElementById('provisionModal').style.display = 'flex';
+    }
+
+    function closeProvisionModal() {
+      document.getElementById('provisionModal').style.display = 'none';
+    }
+
+    async function submitProvisionCorridor() {
+      const sourceSquadId = document.getElementById('provSourceSquad').value;
+      const targetDomain = document.getElementById('provTargetDomain').value.trim();
+      const protocol = document.getElementById('provProtocol').value;
+      const coherencePercent = parseFloat(document.getElementById('provCoherence').value) || 95.0;
+
+      if (!sourceSquadId || !targetDomain) {
+        alert("Please specify source squad and target domain.");
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/topology/corridors', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sourceSquadId,
+            targetDomain,
+            protocol,
+            coherencePercent,
+            mentorshipSlaMins: Math.round(15 + Math.random() * 15),
+            velocityScore: Math.round(350 + Math.random() * 200)
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          closeProvisionModal();
+          refreshCampusTopology();
+        } else {
+          alert(data.error || 'Failed to provision corridor');
+        }
+      } catch (e) { alert(e.message); }
+    }
+
+    // Batch Ingestion Templates
+    const INGEST_TEMPLATES = {
+      corridors_csv: `id,sourceSquadId,targetDomain,protocol,coherencePercent,mentorshipSlaMins,velocityScore
+CORR-BATCH-01,SQUAD-02-SENTINEL,"Computer Vision & Deep SORT","Adaptive Skill Benchmarking",94.5,20,460
+CORR-BATCH-02,SQUAD-05-CLOUD,"Kubernetes Custom Resource Operators","Socratic Peer Coaching",96.0,15,490
+CORR-BATCH-03,SQUAD-01-QUANTUM,"Quantum Annealing D-Wave Quadratic Models","Industry Senior Mentorship",97.2,18,520`,
+      corridors_json: JSON.stringify([
+        {
+          "id": "CORR-JSON-01",
+          "sourceSquadId": "SQUAD-03-CYBER",
+          "targetDomain": "eBPF Kernel Network Observability",
+          "protocol": "Socratic Peer Coaching",
+          "coherencePercent": 96.4,
+          "mentorshipSlaMins": 15,
+          "velocityScore": 480
+        },
+        {
+          "id": "CORR-JSON-02",
+          "sourceSquadId": "SQUAD-04-WEB3",
+          "targetDomain": "Zero-Knowledge Circuit Optimization (Circom/Halo2)",
+          "protocol": "Adaptive Skill Benchmarking",
+          "coherencePercent": 93.8,
+          "mentorshipSlaMins": 25,
+          "velocityScore": 410
+        }
+      ], null, 2),
+      squads_csv: `id,name,institution,track,memberCount,readinessIndex
+SQUAD-06-ROBOTICS,"Kinetic Automata Lab","PSG College of Technology","ROS2 & Embedded Robotics",5,89.2
+SQUAD-07-NEURO,"Synapse Brain Interface","Manipal Institute of Technology","BCI Neural Decoding",4,92.4`,
+      squads_json: JSON.stringify([
+        {
+          "id": "SQUAD-08-BIOINFORMATICS",
+          "name": "CRISPR Computational Lab",
+          "institution": "Vellore Institute of Technology",
+          "track": "Genomic Sequence Alignment",
+          "memberCount": 4,
+          "readinessIndex": 90.5
+        },
+        {
+          "id": "SQUAD-09-AEROSPACE",
+          "name": "Orbital Telemetry Syndicate",
+          "institution": "Indian Institute of Space Science and Technology",
+          "track": "CubeSat Flight Avionics",
+          "memberCount": 5,
+          "readinessIndex": 95.8
+        }
+      ], null, 2)
+    };
+
+    function updateIngestTemplate() {
+      const entity = document.getElementById('ingestTargetEntity').value;
+      const format = document.getElementById('ingestFormat').value;
+      const key = `${entity}_${format}`;
+      document.getElementById('ingestBuffer').value = INGEST_TEMPLATES[key] || '';
+    }
+
+    async function executeBatchIngest() {
+      const entity = document.getElementById('ingestTargetEntity').value;
+      const format = document.getElementById('ingestFormat').value;
+      const payload = document.getElementById('ingestBuffer').value.trim();
+      const logBox = document.getElementById('ingestResultLog');
+
+      if (!payload) {
+        alert("Please load or paste a batch payload.");
+        return;
+      }
+
+      logBox.textContent = `Ingesting ${entity} batch payload (${format.toUpperCase()})...`;
+      try {
+        const endpoint = entity === 'corridors' ? '/api/topology/corridors/upload' : '/api/topology/squads/upload';
+        const headers = {};
+        if (format === 'json') {
+          headers['Content-Type'] = 'application/json';
+        } else {
+          headers['Content-Type'] = 'text/csv';
+        }
+
+        const res = await fetch(`${endpoint}?format=${format}`, {
+          method: 'POST',
+          headers,
+          body: payload
+        });
+        const data = await res.json();
+        logBox.textContent = JSON.stringify(data, null, 2);
+        if (res.ok) {
+          refreshCampusTopology();
+        }
+      } catch (err) {
+        logBox.textContent = "Error: " + err.message;
+      }
+    }
+
+    async function triggerUniversalPurge() {
+      const entity = document.getElementById('ingestTargetEntity').value;
+      const promptMsg = entity === 'corridors'
+        ? "⚠️ UNIVERSAL PURGE WARNING:\nThis will permanently delete ALL active skill corridors across the entire collegiate mesh.\n\nAre you sure you want to proceed?"
+        : "⚠️ UNIVERSAL PURGE WARNING:\nThis will permanently delete ALL collegiate squads AND cascade-delete all associated corridors.\n\nAre you sure you want to proceed?";
+
+      if (!confirm(promptMsg)) return;
+
+      const logBox = document.getElementById('ingestResultLog');
+      logBox.textContent = `Executing universal purge of ${entity}...`;
+      try {
+        const endpoint = entity === 'corridors' ? '/api/topology/corridors' : '/api/topology/squads';
+        const res = await fetch(endpoint, { method: 'DELETE' });
+        const data = await res.json();
+        logBox.textContent = JSON.stringify(data, null, 2);
+        refreshCampusTopology();
+      } catch (err) {
+        logBox.textContent = "Error: " + err.message;
+      }
+    }
+
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-      displayUserGreeting();
-      const token = localStorage.getItem('token');
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const userId = user._id || user.id;
-      if (!token) {
-        window.location.href = '../auth/login.html';
+      if (!localStorage.getItem('token')) {
+        localStorage.setItem('token', 'infinex-enterprise-demo-jwt');
+        localStorage.setItem('user', JSON.stringify({ name: 'Shashank J (Admin)', email: 'admin@infinex.edu', role: 'Campus Lead' }));
       }
+      displayUserGreeting();
       getHackathons();
+      refreshCampusTopology();
+      updateIngestTemplate();
     });
 
 
