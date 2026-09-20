@@ -99,3 +99,15 @@ node server.js
 
 ## 📜 License
 MIT License. Open-source educational and career acceleration platform.
+
+
+## User Flow Verification
+
+![User Flow](docs/infinex_3d_world_verified.png)
+![User Flow](docs/infinex_ai_module_verified.png)
+![User Flow](docs/infinex_dashboard_verified.png)
+![User Flow](docs/infinex_login_verified.png)
+![User Flow](docs/infinex_puzzle_verified.png)
+![User Flow](docs/infinex_quantum_verified.png)
+![User Flow](docs/infinex_splash_verified.png)
+
