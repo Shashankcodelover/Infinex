@@ -312,7 +312,7 @@
         </div>
         <div class="mesh-kpi">
           <span>Total Velocity XP</span>
-          <h4 id="meshTotalVelocity" style="color: #A855F7;">--</h4>
+          <h4 id="meshTotalVelocity" style="color: #3b82f6;">--</h4>
         </div>
       </div>
 
@@ -340,7 +340,7 @@
       </div>
 
       <!-- Collegiate Squads Roster Table -->
-      <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem; color: #A855F7; margin-top: 2rem;">🎓 Registered Collegiate Hackathon Squads (Governed Units)</h3>
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem; color: #3b82f6; margin-top: 2rem;">🎓 Registered Collegiate Hackathon Squads (Governed Units)</h3>
       <div class="mesh-table-wrapper">
         <table class="mesh-table" id="squadsTable">
           <thead>
@@ -747,10 +747,10 @@
               <td style="color: #00D4FF; font-weight: 700;">${c.id}</td>
               <td style="font-weight: 600;">${c.sourceSquadId}</td>
               <td>${c.targetDomain}</td>
-              <td><span style="background: rgba(168,85,247,0.15); color: #C084FC; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem;">${c.protocol}</span></td>
+              <td><span style="background: rgba(168,85,247,0.15); color: #60a5fa; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem;">${c.protocol}</span></td>
               <td style="color: ${c.coherencePercent >= 92 ? '#00FF94' : '#00D4FF'}; font-weight: 700;">${c.coherencePercent}%</td>
               <td>${c.mentorshipSlaMins} mins</td>
-              <td><span style="color: #A855F7; font-weight: 700;">+${c.velocityScore}</span></td>
+              <td><span style="color: #3b82f6; font-weight: 700;">+${c.velocityScore}</span></td>
               <td><span class="status-badge ${isSevered ? 'severed' : 'active'}">${isSevered ? 'SEVERED' : 'ACTIVE'}</span></td>
               <td>
                 ${isSevered
@@ -773,7 +773,7 @@
           currentSquads.forEach(s => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-              <td style="color: #A855F7; font-weight: 700;">${s.id}</td>
+              <td style="color: #3b82f6; font-weight: 700;">${s.id}</td>
               <td style="font-weight: 600;">${s.name}</td>
               <td style="color: rgba(255,255,255,0.8);">${s.institution}</td>
               <td><span style="background: rgba(0,212,255,0.12); color: #00D4FF; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem;">${s.track}</span></td>
